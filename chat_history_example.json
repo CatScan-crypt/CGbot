@@ -1,0 +1,12 @@
+{
+    "messages": [
+        {
+            "role": "user",
+            "content": "count to 5"
+        },
+        {
+            "role": "assistant",
+            "content": "1, 2, 3, 4, 5."
+        }
+    ]
+}
