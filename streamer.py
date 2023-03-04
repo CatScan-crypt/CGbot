@@ -17,4 +17,4 @@ def print_chat_results(completion, user_input):
     with open('chat_history.json', 'w') as f:
         json.dump({"messages": chat_history}, f, indent=4)
 
-    print('\n' + ''.join([msg['content'] for msg in chat_history[1:]]))
+    #print('\n' + ''.join([msg['content'] for msg in chat_history[1:]]))

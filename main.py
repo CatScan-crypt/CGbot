@@ -13,6 +13,7 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 
 # Prompt user to pick an option
-option = input("Enter an option:\n1. Enter message\n2. Load from chat_history.json\n")
+selected_input_option = input("Enter an option:\n1. Enter message\n2. Load from chat_history.json\n")
 
-user_options(option, chat_options)
+
+user_options(selected_input_option, chat_options)
