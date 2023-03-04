@@ -13,6 +13,8 @@ def option_one(chat_options):
 
     while True:
         if counter > 0:
+            with open('chat_history.json', 'r') as f:
+                chat_data = json.load(f)
             # Load previous messages from chat_data
             user_input = input("Enter your message with history: ")
             messages = chat_data['messages']
