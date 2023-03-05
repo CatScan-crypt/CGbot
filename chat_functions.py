@@ -23,9 +23,6 @@ def option_one(chat_options):
             messages.append({"role": "user", "content": user_input})
             chat_data['messages'] = messages
         
-            # Write updated chat_data back to JSON file
-            with open('chat_history.json', 'w') as f:
-                json.dump(chat_data, f)
         else:
             # Prompt user for chat message
             user_input = input("Enter your message: ")
