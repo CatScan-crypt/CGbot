@@ -2,21 +2,21 @@
 
 import json
 import openai
-from streamer import print_chat_results
+from streamer import print_and_save_chat_results
 
 def option_one(chat_options):
-    counter = 0
+    Iteration = 0
     
     # Load messages from JSON file
     with open('chat_history.json', 'r') as f:
         chat_data = json.load(f)
 
     while True:
-        if counter > 0:
+        if Iteration > 0:
             with open('chat_history.json', 'r') as f:
                 chat_data = json.load(f)
             # Load previous messages from chat_data
-            user_input = input("Enter your message with history: ")
+            user_input = input("\nEnter your message: ")
             messages = chat_data['messages']
         
             # Update chat_data with latest user input
@@ -34,11 +34,11 @@ def option_one(chat_options):
           **chat_options
         )
 
-        print_chat_results(completion, user_input)
+        print_and_save_chat_results(completion, user_input)
 
         # Increment the counter and print the current iteration number
-        counter += 1
-        print("Iteration:", counter)
+        Iteration += 1
+        
 
 
 
@@ -52,7 +52,7 @@ def option_two(chat_options):
       **chat_options
     )
 
-    print_chat_results(completion, chat_data['messages'][0]['content'])
+    print_and_save_chat_results(completion, chat_data['messages'][0]['content'])
 
 def user_options(option, chat_options):
     options = {

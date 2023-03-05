@@ -2,7 +2,7 @@
 import sys
 import json
 
-def print_chat_results(completion, user_input):
+def print_and_save_chat_results(completion, user_input):
     # Load existing chat history from the file
     with open('chat_history.json', 'r') as f:
         chat_history = json.load(f)["messages"]
