@@ -6,10 +6,12 @@ from streamer import print_and_save_chat_results
 
 def option_one(chat_options):
     Iteration = 0
-    
-    # Load messages from JSON file
-    with open('chat_history.json', 'r') as f:
-        chat_data = json.load(f)
+    # Define the initial JSON data
+    chat_data = {"messages": []}
+
+    # Open the file in write mode and write the JSON data to it
+    with open("chat_history.json", "w") as f:
+        json.dump(chat_data, f)
 
     while True:
         if Iteration > 0:
