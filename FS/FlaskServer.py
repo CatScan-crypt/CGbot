@@ -6,7 +6,8 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/api/chatbot', methods=['POST'])
 def test():
-    return jsonify({'message': 'This is a test endpoint!'})
+    response = 'This is a response from the Flask server'
+    return jsonify({'response': response})
 
 if __name__ == '__main__':
     app.run()
