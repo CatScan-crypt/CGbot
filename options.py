@@ -1,5 +1,5 @@
 chat_options = {
-    "max_tokens": 1000,
+    "max_tokens": 3000,
     "stop": None,
     "n": 1,
     "presence_penalty": 0.5,
