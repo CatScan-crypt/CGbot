@@ -6,11 +6,7 @@ from options import chat_options
 from chat_functions import user_options
 import os
 
-# Define the command to run the other Python file
-command = "start /B cmd.exe /c python UI/web.py "
 
-# Use os.system to run the command
-os.system(command)
 # Load environment variables from .env file or local vars
 load_dotenv()
 openai.api_key = os.environ.get("OPENAI_API_KEY")
