@@ -22,27 +22,26 @@ fetch('http://127.0.0.1:5000/api/chatbot', {
     message: message
   })
 })
-  .then(response => {
-    // Handle response from Flask server
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let chunks = [];
+.then(response => {
+  // Handle response from Flask server
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let chunks = [];
 
-    function readStream() {
-      return reader.read().then(({ done, value }) => {
-        if (done) {
-          const responseMessage = document.createElement('div');
-          responseMessage.innerText = decoder.decode(chunks);
-          output.appendChild(responseMessage);
-          return;
-        }
-        chunks.push(value);
-        const responseMessage = document.createElement('div');
-        responseMessage.innerText = decoder.decode(value);
-        output.appendChild(responseMessage);
-        return readStream();
-      });
-    }
+  const responseMessage = document.createElement('span');
+  output.appendChild(responseMessage);
+
+  function readStream() {
+    return reader.read().then(({ done, value }) => {
+      if (done) {
+        responseMessage.innerText = decoder.decode(chunks);
+        return;
+      }
+      chunks.push(value);
+      responseMessage.innerText += decoder.decode(value);
+      return readStream();
+    });
+  }
 
     return readStream();
   })
@@ -56,3 +55,5 @@ input.addEventListener('keydown', (event) => {
     sendButton.click();
   }
 });
+
+

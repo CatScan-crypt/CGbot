@@ -31,25 +31,3 @@ def StartToChat(chat_options, user_input):
     return print_and_save_chat_results(completion, user_input)
         
 
-
-
-# def option_two(chat_options):
-#     # Load messages from JSON file
-#     with open('chat_history.json', 'r') as f:
-#         chat_data = json.load(f)
-
-#     completion = openai.ChatCompletion.create(
-#       messages=chat_data['messages'],
-#       **chat_options
-#     )
-
-#     print_and_save_chat_results(completion, chat_data['messages'][0]['content'])
-
-# def user_options(option, chat_options):
-#     options = {
-#         "1": option_one,
-#         "2": option_two
-#     }
-
-#     selected_function = options.get(option)  
-#     selected_function(chat_options)
