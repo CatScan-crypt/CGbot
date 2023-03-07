@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Local HTML Viewer")
         self.browser = QWebEngineView()
-        file_path = QDir.current().absoluteFilePath("UI/test.html")
+        file_path = QDir.current().absoluteFilePath("UI/app.html")
         self.browser.setUrl(QUrl.fromLocalFile(file_path))
         self.setCentralWidget(self.browser)
 
