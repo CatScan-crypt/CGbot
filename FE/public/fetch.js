@@ -18,8 +18,8 @@
     const outputMessageContainer1 = document.createElement('div');
     outputMessageContainer1.classList.add('assistant-bubble-container');
     const responseMessage = document.createElement('div');
-    responseMessage.classList.add('assistant-bubble'); // fix: add class to responseMessage
-    responseMessage.innerText = message; // add message to responseMessage
+    responseMessage.classList.add('assistant-bubble');
+    responseMessage.innerText = message;
     outputMessageContainer1.appendChild(responseMessage);
     assistantOutput.appendChild(outputMessageContainer1);
     input.value = '';
