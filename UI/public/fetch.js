@@ -15,12 +15,20 @@
     const decoder = new TextDecoder();
     let chunks = [];
 
+    const outputMessageContainer1 = document.createElement('div');
+    outputMessageContainer1.classList.add('assistant-bubble-container');
     const responseMessage = document.createElement('div');
-    assistantOutput.appendChild(responseMessage);
-
+    responseMessage.classList.add('assistant-bubble'); // fix: add class to responseMessage
+    responseMessage.innerText = message; // add message to responseMessage
+    outputMessageContainer1.appendChild(responseMessage);
+    assistantOutput.appendChild(outputMessageContainer1);
+    input.value = '';
+    input.focus();
+    
     function readStream() {
       return reader.read().then(({ done, value }) => {
         if (done) {
+          responseMessage.innerText = decoder.decode(new Uint8Array(chunks));
           responseMessage.innerText = decoder.decode(new Uint8Array(chunks));
           return;
         }

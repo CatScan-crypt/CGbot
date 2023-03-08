@@ -42,7 +42,8 @@
 
 }
 
-#assistant-output {
+
+.assistant-bubble {
   background-color: #2196F3;
   border-radius: 10px;
   margin: 10px 0;
@@ -52,7 +53,11 @@
   align-self: flex-start;
 }
 
-.bubble-container {
+.user-bubble-container {
   display: flex;
   justify-content: flex-end;
+}
+.assistant-bubble-container {
+  display: flex;
+  justify-content: flex-start;
 }
