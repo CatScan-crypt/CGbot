@@ -1,19 +1,14 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+
 
 const app = express();
 
 // Serve static files in 'public' folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 app.get('/app.html', (req, res) => {
   res.send('htmlpage');
-});
-
-// Set the MIME type for JavaScript files
-app.get('*.js', (req, res, next) => {
-  res.setHeader('Content-Type', 'application/javascript');
-  next();
 });
 
 // Start the server

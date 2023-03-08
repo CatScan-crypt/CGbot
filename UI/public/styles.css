@@ -32,13 +32,14 @@
   cursor: pointer;
 }
 
-#user-output {
+.user-bubble {
   background-color: #00c853;
   border-radius: 10px;
   margin: 10px 0;
   padding: 10px;
   max-width: 70%;
   align-self: flex-end;
+
 }
 
 #assistant-output {
@@ -49,4 +50,9 @@
   max-width: 70%;
   color: #fff;
   align-self: flex-start;
+}
+
+.bubble-container {
+  display: flex;
+  justify-content: flex-end;
 }

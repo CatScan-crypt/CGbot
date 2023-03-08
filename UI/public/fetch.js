@@ -1,4 +1,4 @@
-   function test(){
+   function sendMessageToAPI(message){
    // Send message to Flask server
    fetch('http://127.0.0.1:5000/api/chatbot', {
     method: 'POST',
