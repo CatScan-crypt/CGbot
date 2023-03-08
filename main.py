@@ -1,17 +1,14 @@
 #main.py
-import openai
-import json
-from dotenv import load_dotenv
-from options import chat_options
-from chat_functions import StartToChat
 import os
+from FlaskServer import app
 
-# Load environment variables from .env file or local vars
-load_dotenv()
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+# Define the command to run the other Python file
+command = "start /B cmd.exe /c python UI/web.py "
 
-# Prompt user to pick an option
-selected_input_option = input("Enter an option:\n1. Enter message\n2. Load from chat_history.json\n")
+# Use os.system to run the command
+os.system(command)
 
-#Print OpenAI response to CLI in a stream using sys.stdout.flush()
-StartToChat(selected_input_option, chat_options)
+if __name__ == '__main__':
+    app.run()
+
+    

@@ -24,4 +24,5 @@ class MainWindow(QMainWindow):
 app = QApplication(sys.argv)
 window = MainWindow()
 window.show()
+window.resize(800, 550)
 app.exec_()

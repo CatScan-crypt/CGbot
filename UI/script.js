@@ -22,7 +22,7 @@ fetch('http://127.0.0.1:5000/api/chatbot', {
     message: message
   })
 })
-.then(response => {
+  .then(response => {
   // Handle response from Flask server
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
@@ -37,11 +37,17 @@ fetch('http://127.0.0.1:5000/api/chatbot', {
         responseMessage.innerText = decoder.decode(chunks);
         return;
       }
-      chunks.push(value);
-      responseMessage.innerText += decoder.decode(value);
+      if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
+        chunks.push(value);
+        responseMessage.innerText += decoder.decode(value);
+      } else {
+        console.log('Invalid response body:', value);
+      }
       return readStream();
     });
   }
+  
+  
 
     return readStream();
   })
