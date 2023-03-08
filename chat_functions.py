@@ -22,11 +22,6 @@ def StartToChat(chat_options, user_input):
       **chat_options
     )
 
-    # # Save chat history to file
-    # print_and_save_chat_results(completion, user_input)
-    # with open('chat_history.json', 'w') as f:
-    #     json.dump(chat_data, f)
-
     # Return chat history to Flask server
     return print_and_save_chat_results(completion, user_input)
         
