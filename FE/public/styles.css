@@ -8,30 +8,6 @@
   border-bottom: 2px solid #ccc;
 }
 
-#output {
-  width: 100%;
-  height: 400px;
-  overflow-y: scroll;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  background-color: #f5f5f5;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: flex-end; /* align bubble containers to the end of the container */
-}
-
-.user-bubble-container {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.assistant-bubble-container {
-  display: flex;
-  justify-content: flex-start;
-}
-
-
 #send-button {
   display: block;
   margin: 10px auto;
@@ -44,6 +20,21 @@
   cursor: pointer;
 }
 
+#output {
+  width: 100%;
+  height: 400px;
+  overflow-y: scroll;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: row; /* change this from "row" to "column" */
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+
 .user-bubble {
   background-color: #00c853;
   border-radius: 10px;
@@ -54,18 +45,6 @@
 
 }
 
-
-.assistant-bubble-container {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 10px; /* add margin-top to separate the bubble container from the user container */
-}
-.assistant-bubble-output {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 10px; /* add margin-top to separate the bubble container from the user container */
-}
-
 .assistant-bubble {
   background-color: #2196F3;
   border-radius: 10px;
@@ -73,13 +52,17 @@
   padding: 10px;
   max-width: 70%;
   color: #fff;
-  margin-right: auto;
-  margin-left: 10px; /* add margin-left to separate the bubble from the left edge of the container */
   align-self: flex-start;
+  
 }
 
+.assistant-output {
+  order: 1;
+  margin-right: 10%;
 
-.user-bubble-container {
-  display: flex;
-  justify-content: flex-start;
+}
+#user-output {
+  order: 2;
+  margin-left: 10%;
+
 }
