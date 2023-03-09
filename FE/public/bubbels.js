@@ -27,34 +27,38 @@ function userBubble(message){
   input.focus();
 }
 
+function assistantBubble(assistantResponseMessage) {
+  assistantResponseMessage.classList.add('assistant-bubble');
+  assistantResponseMessage.innerText = '';
+  const assistantoutputMessageContainer = document.createElement('div');
+  assistantoutputMessageContainer.classList.add('assistant-bubble-container');
+  assistantoutputMessageContainer.appendChild(assistantResponseMessage);
+  assistantOutput.appendChild(assistantoutputMessageContainer);
 
-  function assistantBubble(assistantResponseMessage) {
-    assistantResponseMessage.classList.add('assistant-bubble');
-    assistantResponseMessage.innerText = '';
-    const assistantoutputMessageContainer = document.createElement('div');
-    assistantoutputMessageContainer.classList.add('assistant-bubble-container');
-    assistantoutputMessageContainer.appendChild(assistantResponseMessage);
+  // Create new div to push user messages upwards
+  const newBubble = document.createElement('div');
+  newBubble.classList.add('user-bubble');
+  newBubble.style.backgroundColor = 'transparent'; 
+  const newBubbleContainer = document.createElement('div');
+  newBubbleContainer.classList.add('user-bubble-container');
+  newBubbleContainer.appendChild(newBubble);
+  userOutput.appendChild(newBubbleContainer);
   
-    // create new div to mimic previous user-bubble size
-    const previousUserBubble = document.querySelector('.user-bubble-container:last-of-type .user-bubble');
-    if (previousUserBubble) {
-      
-      const previousUserBubbleStyle = getComputedStyle(previousUserBubble);
-      const previousUserBubbleSize =  ' ' + previousUserBubbleStyle.getPropertyValue('height');
-      const newBubble = document.createElement('div');
-      newBubble.classList.add('user-bubble');
-      newBubble.style.width = previousUserBubbleStyle.getPropertyValue('width');
-      newBubble.style.height = previousUserBubbleStyle.getPropertyValue('height');
-      newBubble.style.backgroundColor = 'transparent'; // set background color to transparent
-      const newBubbleContainer = document.createElement('div');
-      newBubbleContainer.classList.add('user-bubble-container');
-      newBubbleContainer.appendChild(newBubble);
-      userOutput.appendChild(newBubbleContainer);
-    }
-  
-    assistantOutput.appendChild(assistantoutputMessageContainer);
-    input.value = '';
-    input.focus();
-  }
+  // Set the height of the newBubble element to match the height of the assistant bubble
+  const updateNewBubbleHeight = () => {
+    const assistantBubbleHeight = assistantoutputMessageContainer.offsetHeight;
+    newBubble.style.height = `${assistantBubbleHeight}px`;
+  };
+
+  updateNewBubbleHeight();
+
+  // Listen for changes to the height of the assistant bubble and update the newBubble height accordingly
+  const resizeObserver = new ResizeObserver(updateNewBubbleHeight);
+  resizeObserver.observe(assistantoutputMessageContainer);
+
+  input.value = '';
+  input.focus();
+}
+
   
   
