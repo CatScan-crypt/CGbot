@@ -10,32 +10,25 @@
     })
   })
   .then(response => {
-    // Handle response from Flask server
+    // Handle response from server
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let chunks = [];
-
-    const outputMessageContainer1 = document.createElement('div');
-    outputMessageContainer1.classList.add('assistant-bubble-container');
-    const responseMessage = document.createElement('div');
-    responseMessage.classList.add('assistant-bubble');
-    responseMessage.innerText = message;
-    outputMessageContainer1.appendChild(responseMessage);
-    assistantOutput.appendChild(outputMessageContainer1);
-    input.value = '';
-    input.focus();
     
+    const assistantResponseMessage = document.createElement('div');   
+    assistantBubble(assistantResponseMessage);
+    
+    //streaming text reaults to the assistant bubble 
     function readStream() {
       return reader.read().then(({ done, value }) => {
         if (done) {
-          responseMessage.innerText = decoder.decode(new Uint8Array(chunks));
-          responseMessage.innerText = decoder.decode(new Uint8Array(chunks));
+          assistantResponseMessage.innerText = decoder.decode(new Uint8Array(chunks));
           return;
         }
         if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
           chunks.push(...value);
           const bytes = new Uint8Array(value);
-          responseMessage.innerText += decoder.decode(bytes);
+          assistantResponseMessage.innerText += decoder.decode(bytes);
         } else {
           console.log('Invalid response body:', value);
         }

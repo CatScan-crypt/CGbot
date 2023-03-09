@@ -10,6 +10,7 @@ sendButton.addEventListener('click', () => {
 
     userBubble(message)
     // Send message to Flask server
+
     sendMessageToAPI(message)
   }
 });
