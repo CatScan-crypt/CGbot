@@ -2,6 +2,7 @@
 const input = document.getElementById('input');
 const userOutput = document.getElementById('user-output');
 const assistantOutput = document.getElementById('assistant-output');
+const output = document.getElementById('output');
 const sendButton = document.getElementById('send-button');
 
 sendButton.addEventListener('click', () => {
