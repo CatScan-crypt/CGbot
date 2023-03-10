@@ -8,6 +8,10 @@
   border-bottom: 2px solid #ccc;
 }
 
+/* .App-footer{
+  
+} */
+
 #send-button {
   display: block;
   margin: 10px auto;
@@ -52,17 +56,17 @@
   text-align: right;
 }
 
-#assistant-bubble-container {
+.assistant-bubble-container {
   display: flex; 
-  justify-content: flex-start; 
-  min-width: 80%;
+  justify-content:left; 
+  min-width: 80%; 
 }
 
 
 .assistant-bubble {
   background-color: #2196F3;
   border-radius: 10px;
-  margin: 10px 0;
+  margin: 10px;
   padding: 10px;
   color: #fff;
   max-width: max-content;
