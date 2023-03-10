@@ -6,13 +6,10 @@ function userBubble(message){
   outputMessage.classList.add('user-bubble');
   outputMessage.innerText = message;
   outputMessageContainer.appendChild(outputMessage);
-  output.appendChild(outputMessageContainer);
+  output.appendChild(outputMessageContainer );
   input.value = '';
   input.focus();
 }
-
-
-
 
   function assistantBubble(assistantResponseMessage) {
   assistantResponseMessage.classList.add('assistant-bubble');
@@ -25,13 +22,11 @@ function userBubble(message){
   const updateNewBubbleHeight = () => {
     const assistantBubbleHeight = assistantoutputMessageContainer.offsetHeight;
   };
-
   updateNewBubbleHeight();
 
   // Listen for changes to the height of the assistant bubble and update the newBubble height accordingly
   const resizeObserver = new ResizeObserver(updateNewBubbleHeight);
   resizeObserver.observe(assistantoutputMessageContainer);
-
   input.value = '';
   input.focus();
 }
