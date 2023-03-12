@@ -12,8 +12,8 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
 }
+
 
 #send-button {
   position:absolute;
@@ -31,7 +31,7 @@
 }
 
 #output {
-
+  position: relative;
   height: 400px;
   padding: 10px;
   box-sizing: border-box;
@@ -42,10 +42,36 @@
   justify-content: flex-end; 
  
 }
+.scrollbar{
+  position: absolute;
+  right: 0;
+  width: 20px; /* adjust the width as needed */
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:absolute;
+  overflow:auto;
+  top:0px;
+  right:0px;
+  z-index:2;
+  background:#444;
+  width:17px;
+  border-radius:8px;
+}
 
+*::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
 #output-inner {
     overflow-y: scroll;
+    scrollbar-width: none;
 }
+
 
 .user-bubble-container {
   display: flex; 
@@ -54,7 +80,6 @@
 }
 
 .user-bubble{
-  
   background: rgb(125,121,213);
   background: linear-gradient(137deg, rgba(125,121,213,1) 23%, rgba(26,129,186,1) 49%, rgba(0,212,255,1) 80%);
   border-radius: 10px;
