@@ -1,0 +1,58 @@
+
+
+#output {
+  position: relative;
+  height: 400px;
+  padding: 0.1px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction:column;
+  justify-content: flex-end; 
+ 
+}
+.scrollbar{
+  cursor:n-resize;
+  position:absolute;
+  overflow:auto;
+  top:0px;
+  right:0px;
+  z-index:2;
+  background:#444;
+  width:17px;
+  border-radius:8px;
+
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+#output-inner {
+  overflow-y:scroll;
+  position:relative;
+  padding:0 2px 0 0;
+  height:98%;
+  width:98%;
+  overflow-x:hidden;
+  /* display: flex;
+  flex-direction:column;
+  justify-content: flex-end;  */
+}
+
+
+
+
+.parent{
+  position:relative;
+  overflow:hidden;
+  height:99%;
+  width:100%;
+  background:#ddd;
+  
+}
