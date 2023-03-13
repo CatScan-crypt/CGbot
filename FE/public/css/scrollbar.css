@@ -1,0 +1,29 @@
+.scrollbar{
+    cursor:n-resize;
+    position:absolute;
+    overflow:auto;
+    top:0px;
+    right:0px;
+    z-index:2;
+    background:#444;
+    width:17px;
+    border-radius:8px;
+  
+  }
+  
+  *::-webkit-scrollbar {
+    display: none;
+  }
+  
+  * {
+    scrollbar-width: none;
+  }
+  
+  .parent{
+    position:relative;
+    overflow:hidden;
+    height:99%;
+    width:100%;
+    background:#ddd;
+  }
+  
