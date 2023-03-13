@@ -27,4 +27,8 @@ function updateScrollbar() {
   scrollHeight = $scrollable.prop("scrollHeight");
   barHeight    = scrollHeight > height ? height * height / scrollHeight : 0;
   $scrollbar.height( barHeight );
+  if ($scrollable.prop('scrollHeight') > height) {
+  // Scroll to bottom
+  $scrollable.scrollTop($scrollable.prop('scrollHeight'));
+}
 }
