@@ -9,6 +9,7 @@ function userBubble(message){
   output.appendChild(outputMessageContainer);
   input.value = '';
   input.focus();
+  updateScrollbar()
 }
 
   function assistantBubble(assistantResponseMessage) {

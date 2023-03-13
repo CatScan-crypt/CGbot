@@ -43,13 +43,7 @@
  
 }
 .scrollbar{
-  position: absolute;
-  right: 0;
-  width: 20px; /* adjust the width as needed */
-  height: 20%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  cursor:n-resize;
   position:absolute;
   overflow:auto;
   top:0px;
@@ -58,6 +52,8 @@
   background:#444;
   width:17px;
   border-radius:8px;
+  height:9%;
+
 }
 
 *::-webkit-scrollbar {
@@ -67,9 +63,15 @@
 * {
   scrollbar-width: none;
 }
+
 #output-inner {
-    overflow-y: scroll;
-    scrollbar-width: none;
+  overflow-y:scroll;
+  position:relative;
+  padding:0 17px 0 0;
+  height:90%;
+  width:90%;
+  overflow-x:hidden;
+
 }
 
 
@@ -114,3 +116,11 @@
   border:0.1px solid #fff;
 }
 
+.parent{
+  position:relative;
+  overflow:hidden;
+  height:90%;
+  width:90%;
+  background:#ddd;
+  
+}

@@ -23,12 +23,16 @@
       return reader.read().then(({ done, value }) => {
         if (done) {
           assistantResponseMessage.innerText = decoder.decode(new Uint8Array(chunks));
+  updateScrollbar()
+
           return;
         }
         if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
           chunks.push(...value);
           const bytes = new Uint8Array(value);
           assistantResponseMessage.innerText += decoder.decode(bytes);
+  updateScrollbar()
+
         } else {
           console.log('Invalid response body:', value);
         }
