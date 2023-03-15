@@ -1,5 +1,5 @@
-  $scrollingArea = $(".output-inner"),
   $scrollbar = $(".scrollbar"),
+  $scrollingArea = $(".output-inner"),
   height = $scrollingArea.outerHeight(true),    // visible height
   scrollingLength = $scrollingArea.prop("scrollHeight"), // total length to travel
   scrollBarLength = scrollingLength > height ? height * height / scrollingLength : 0;   // Scrollbar height!
