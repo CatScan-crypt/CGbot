@@ -14,6 +14,7 @@ function userBubble(message) {
     console.log('User bubble clicked');
 
     // create div with buttons
+
     if (!buttonsAdded) {
       const buttonContainer = $('<div>').addClass('button-container');
       const button1 = $('<button>').addClass('button').text('Button 1');
@@ -29,6 +30,8 @@ function userBubble(message) {
       buttonsAdded = false;
     }
   });
+
+
 }
 
 function assistantBubble(assistantResponseMessage) {
@@ -38,6 +41,32 @@ function assistantBubble(assistantResponseMessage) {
   $('#input').val('');
   $('#input').focus();
   updateScrollbar();
+
+
+  // add event listener to button
+  $(assistantResponseMessage).on('click', function() {
+    console.log('Assistant bubble clicked');
+
+    // create div with buttons
+
+    if (!buttonsAdded) {
+      const buttonContainer = $('<div>').addClass('button-container1');
+      const button11 = $('<button>').addClass('button').text('Button 1');
+      const button22 = $('<button>').addClass('button').text('Button 2');
+      const button33 = $('<button>').addClass('button').text('Button 3');
+      const button44 = $('<button>').addClass('button').text('Button 4');
+      buttonContainer.append(button11, button22, button33, button44);
+      buttonContainer.insertAfter($(assistantResponseMessage));
+      buttonsAdded = true;
+    } else {
+      // if buttons already added, remove them
+      $('.button-container1').remove();
+      buttonsAdded = false;
+    }
+  });
+
+
+  
 }
 
 

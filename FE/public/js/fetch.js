@@ -15,7 +15,7 @@
     const decoder = new TextDecoder();
     let chunks = [];
     
-    const assistantResponseMessage = document.createElement('div');   
+    const assistantResponseMessage = document.createElement('button');   
     assistantBubble(assistantResponseMessage);
     
     //streaming text reaults to the assistant bubble 
