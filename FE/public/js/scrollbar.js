@@ -1,45 +1,42 @@
-var $scrollable = $(".output-inner"),
-    $scrollbar = $(".scrollbar"),
-    height = $scrollable.outerHeight(true),    // visible height
-    scrollHeight = $scrollable.prop("scrollHeight"), // total height
-    barHeight = scrollHeight > height ? height * height / scrollHeight : 0;   // Scrollbar height!
+  $scrollingArea = $(".output-inner"),
+  $scrollbar = $(".scrollbar"),
+  height = $scrollingArea.outerHeight(true),    // visible height
+  scrollingLength = $scrollingArea.prop("scrollHeight"), // total length to travel
+  scrollBarLength = scrollingLength > height ? height * height / scrollingLength : 0;   // Scrollbar height!
 
 // Set initial scrollbar height:
-$scrollbar.height(barHeight);
+$scrollbar.height(scrollBarLength);
 
-// Scrollbar drag:
 $scrollbar.draggable({
   axis: "y",
-  containment: "parent",
+  containment: $scrollingArea,
   drag: function (e, ui) {
-    $scrollable.scrollTop(scrollHeight / height * ui.position.top);
+    var scrollbarOffset = $scrollbar.offset().top - $scrollingArea.offset().top;
+    $scrollingArea.scrollTop(scrollingLength / height * scrollbarOffset);
   }
 });
-
 // Element scroll:
-$scrollable.on("scroll", function () {
-  $scrollbar.css({ top: $scrollable.scrollTop() / height * barHeight });
+$scrollingArea.on("scroll", function () {
+  $scrollbar.css({ top: $scrollingArea.scrollTop() / height * scrollBarLength });
 });
 
 // Function to update scrollbar when content is added:
 function updateScrollbar() {
-  height = $scrollable.outerHeight(true);
-  scrollHeight = $scrollable.prop("scrollHeight");
-  barHeight = scrollHeight > height ? height * height / scrollHeight : 0;
-  $scrollbar.height(barHeight);
-  if ($scrollable.prop('scrollHeight') > height) {
+  height = $scrollingArea.outerHeight(true);
+  scrollingLength = $scrollingArea.prop("scrollHeight");
+  scrollBarLength = scrollingLength > height ? height * height / scrollingLength : 0;
+  $scrollbar.height(scrollBarLength);
+  if ($scrollingArea.prop('scrollHeight') > height) {
     // Scroll to bottom
-    $scrollable.scrollTop($scrollable.prop('scrollHeight'));
+    $scrollingArea.scrollTop($scrollingArea.prop('scrollHeight'));
   }
 }
 
 // Scrollbar page up\down to edge buttons:
 $("#scroll-up-button").on("click", function () {
-  $scrollable.scrollTop($scrollable.scrollTop() - scrollHeight); // Adjust the amount scrolled as needed
-  $scrollbar.css({ top: $scrollable.scrollTop() / height * barHeight });
+  $scrollingArea.scrollTop($scrollingArea.scrollTop() - scrollingLength); 
 });
 
 $("#scroll-down-button").on("click", function () {
-  $scrollable.scrollTop($scrollable.scrollTop() + scrollHeight); // Adjust the amount scrolled as needed
-  $scrollbar.css({ top: $scrollable.scrollTop() / height * barHeight });
+  $scrollingArea.scrollTop($scrollingArea.scrollTop() + scrollingLength); 
 });

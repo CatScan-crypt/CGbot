@@ -19,10 +19,10 @@
     scrollbar-width: none;
   }
   
-  .parent{
+  .scrolling-section{
     position:relative;
     overflow:hidden;
-    height:99%;
+    height:98%;
     width:100%;
     background:#ddd;
   }
