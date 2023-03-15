@@ -8,7 +8,7 @@
     background:#444;
     width:17px;
     border-radius:8px;
-  
+
   }
   
   *::-webkit-scrollbar {
@@ -27,3 +27,15 @@
     background:#ddd;
   }
   
+  #scroll-up-button, #scroll-down-button {
+    position: absolute;
+    top: -1px;
+    height: 20px;
+    left: -5.5px;
+  }
+  
+  #scroll-down-button {
+    top: auto;
+    bottom: -1.5px;
+    left: -5.5px;
+  }
