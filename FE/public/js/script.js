@@ -8,12 +8,10 @@ sendButton.addEventListener('click', () => {
   if (message.trim() !== '') {
 
     userBubble(message)
-    // Send message to Flask server
-
+    // Send a message to the server
     sendMessageToAPI(message)
   }
 });
-
 
 input.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {
