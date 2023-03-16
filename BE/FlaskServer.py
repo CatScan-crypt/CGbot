@@ -28,5 +28,11 @@ def chatbot():
     message = request.json['message']
     return StartToChat(chat_options, message)
 
+@app.route('/editMessageEndpoint', methods=['POST'])
+def edit_message():
+    index_message = request.json['indexMessage']
+    print(f"Index message fetched: {index_message}")
+    return 'OK'
+
 if __name__ == '__main__':
     app.run()

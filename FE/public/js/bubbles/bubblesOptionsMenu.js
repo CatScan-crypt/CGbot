@@ -14,7 +14,7 @@
 
     } else {
       // if buttons already added, remove them
-      $('.button-container').remove();
+      $('.user-options-container').remove();
       userButtonsAdded = false;
     }
   }
@@ -25,11 +25,11 @@
       // create div with buttons
       if (!assistantButtonsAdded) {
         const buttonContainer = $('<div>').addClass('assistant-options-container');
-        const assistantMessageEditButton = $('<button>').addClass('button').text('Edit').attr('id', 'assistant-message-edit');
         const assistantMessageCopyButton = $('<button>').addClass('button').text('Copy').attr('id', 'assistant-message-copy');
+        const assistantMessageEditButton = $('<button>').addClass('button').text('Edit').attr('id', 'assistant-message-edit');
         const assistantMessageElysiumButton = $('<button>').addClass('button').text('Elysium').attr('id', 'assistant-message-elysium');
         const assistantMessageIndexerButton = $('<button>').addClass('button').text('Indexer').attr('id', 'assistant-message-indexer');
-        buttonContainer.append(assistantMessageEditButton, assistantMessageCopyButton, assistantMessageElysiumButton, assistantMessageIndexerButton);
+        buttonContainer.append(assistantMessageCopyButton, assistantMessageEditButton, assistantMessageElysiumButton, assistantMessageIndexerButton);
         buttonContainer.insertAfter(assistantResponseMessage);
         assistantButtonsAdded = true;
       } else {
@@ -38,3 +38,5 @@
         assistantButtonsAdded = false;
       }
     }
+
+
