@@ -20,14 +20,14 @@ function userBubble(message) {
 
   // Event listener to open option menu
   outputMessage.on('click', function() {
-    userOptionContainer(outputMessage)
+    optionContainer(outputMessage , "user")
   });
 }
 
 function assistantBubble(assistantResponseMessage) {
   messageCount++; // Increment message counter
   const assistantoutputMessageContainer = $('<div>').addClass('assistant-bubble-container').append(assistantResponseMessage);
-  $(assistantResponseMessage).addClass('assistant-bubble').append(assistantResponseMessage);
+  $(assistantResponseMessage).addClass('assistant-bubble')
 
   // Add data-messages attribute with current message count
   $(assistantResponseMessage).attr('data-messages', messageCount);
@@ -39,7 +39,8 @@ function assistantBubble(assistantResponseMessage) {
 
   // Event listener to open option menu
   $(assistantResponseMessage).on('click', function() {
-    assistantOptionContainer($(assistantResponseMessage))
+    // assistantOptionContainer($(assistantResponseMessage))
+    optionContainer($(assistantResponseMessage) , "assistant")
   });
 }
 
