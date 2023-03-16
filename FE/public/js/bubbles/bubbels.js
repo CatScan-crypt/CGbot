@@ -20,7 +20,7 @@ function userBubble(message) {
 
   // Event listener to open option menu
   outputMessage.on('click', function() {
-    optionContainer(outputMessage , "user")
+    userOptionContainer(outputMessage , "user")
   });
 }
 
@@ -39,8 +39,7 @@ function assistantBubble(assistantResponseMessage) {
 
   // Event listener to open option menu
   $(assistantResponseMessage).on('click', function() {
-    // assistantOptionContainer($(assistantResponseMessage))
-    optionContainer($(assistantResponseMessage) , "assistant")
+    assistantOptionContainer($(assistantResponseMessage))
   });
 }
 
