@@ -20,45 +20,21 @@ function assistantMessageCopy(assistantResponseMessage) {
 
 
   $(document).on('click', '#user-message-edit, #assistant-message-edit', function() {
-    const messageNum = $(this).closest('#user-options-container, #assistant-options-container');
+    const optionsContainer = $(this).closest('#user-options-container, #assistant-options-container');
     
     // Get the current text of the bubble div and prompt the user for new text
-    const divToEdit = messageNum.closest('#user-bubble-container, #assistant-bubble-container').find('#user-bubble, #assistant-bubble');
-    enableEditMode(divToEdit);
-    messageNum.remove();
-    console.log(`Message number ${messageNum.attr('data-messages')} was clicked.`);
-    const numberTosend = messageNum.attr('data-messages')
-    sendMessageIndex(numberTosend)
+    const divToEdit = optionsContainer.closest('#user-bubble-container, #assistant-bubble-container').find('#user-bubble, #assistant-bubble');
+    const numberTosend = optionsContainer.attr('data-messages')
+    enableEditMode(divToEdit,numberTosend);
+    optionsContainer.remove();
   });
 
+  function sendEditToServer(numberTosend,newText){
+    sendMessageIndex(numberTosend,newText)
+    }
 
 
-  function sendMessageIndex(indexMessagenumber) {
-    const url = 'http://127.0.0.1:5000/editMessageEndpoint';
-    const payload = JSON.stringify({ indexMessage: indexMessagenumber });
-  
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: payload
-    })
-    .then(response => {
-      if (response.ok) {
-        console.log('Message index sent successfully!');
-      } else {
-        console.error('Error sending message index:', response.status);
-      }
-    })
-    .catch(error => {
-      console.error('Error sending message index:', error);
-    });
-  }
-
-
-
-function enableEditMode(divToEdit) {
+function enableEditMode(divToEdit,numberTosend) {
   // Replace the div content with an input element that contains the current text
   const currentText = divToEdit.text();
   const inputElement = $('<input>').val(currentText);
@@ -78,6 +54,7 @@ function enableEditMode(divToEdit) {
     const newText = inputElement.val();
     divToEdit.text(newText);
     saveChanges(divToEdit, newText);
+    sendEditToServer(numberTosend,newText)
   });
   
   // Append the buttons to the div
@@ -92,4 +69,32 @@ function saveChanges(divToEdit, newText) {
   // Replace the input element and buttons with a regular div that contains the new text
   const newDivElement = $('<div>').text(newText);
   divToEdit.empty().append(newDivElement);
+}
+
+
+
+function sendMessageIndex(indexMessagenumber,messageContent) {
+  const url = 'http://127.0.0.1:5000/editMessageEndpoint';
+  const payload = JSON.stringify({ 
+    indexMessage: indexMessagenumber,
+    messageContent: messageContent
+  });
+  
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: payload
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('Message index sent successfully!');
+    } else {
+      console.error('Error sending message index:', response.status);
+    }
+  })
+  .catch(error => {
+    console.error('Error sending message index:', error);
+  });
 }
