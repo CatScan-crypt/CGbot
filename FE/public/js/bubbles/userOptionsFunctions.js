@@ -23,13 +23,13 @@ function assistantMessageCopy(assistantResponseMessage) {
     const messageNum = $(this).closest('#user-options-container, #assistant-options-container');
     
     // Get the current text of the bubble div and prompt the user for new text
-    const divToEdit = messageNum.closest('#user-bubble-container, #assistant-options-container').find('#user-bubble');
+    const divToEdit = messageNum.closest('#user-bubble-container, #assistant-bubble-container').find('#user-bubble, #assistant-bubble');
     enableEditMode(divToEdit);
+    messageNum.remove();
     console.log(`Message number ${messageNum.attr('data-messages')} was clicked.`);
-    sendMessageIndex(messageNum)
+    const numberTosend = messageNum.attr('data-messages')
+    sendMessageIndex(numberTosend)
   });
-
-
 
 
 
@@ -58,32 +58,38 @@ function assistantMessageCopy(assistantResponseMessage) {
 
 
 
-  function enableEditMode(divToEdit) {
-    // Replace the div content with an input element that contains the current text
-    const currentText = divToEdit.text();
-    const inputElement = $('<input>').val(currentText);
-    divToEdit.empty()
-    divToEdit.append(inputElement);
+function enableEditMode(divToEdit) {
+  // Replace the div content with an input element that contains the current text
+  const currentText = divToEdit.text();
+  const inputElement = $('<input>').val(currentText);
+  divToEdit.empty().append(inputElement);
 
-    // When the user presses the "Enter" key 
-    // update the div content with the new text and disable the edit mode
-    inputElement.on('keydown', (event) => {
-      if ( event.key !== 'Enter') {
-        return;
-      }
-      const newText = inputElement.val();
-      divToEdit.text(newText);
-      saveChangesto(divToEdit);
-    });
+  // Create cancel and approve buttons
+  const cancelButton = $('<button>').text('Cancel');
+  const approveButton = $('<button>').text('Approve');
   
-    // Focus on the input element and select its contents
-    inputElement.focus().select();
-  }
+  // When the user clicks the "Cancel" button, disable the edit mode
+  cancelButton.on('click', () => {
+    saveChanges(divToEdit, currentText);
+  });
+
+  // When the user clicks the "Approve" button, update the div content with the new text and disable the edit mode
+  approveButton.on('click', () => {
+    const newText = inputElement.val();
+    divToEdit.text(newText);
+    saveChanges(divToEdit, newText);
+  });
   
-  function saveChangesto(divToEdit) {
-    // Replace the input element with a regular div that contains the new text
-    const newText = divToEdit.text();
-    const newDivElement = $('<div>').text(newText);
-    divToEdit.empty().append(newDivElement);
-  }
-  
+  // Append the buttons to the div
+  divToEdit.append(cancelButton);
+  divToEdit.append(approveButton);
+
+  // Focus on the input element and select its contents
+  inputElement.focus().select();
+}
+
+function saveChanges(divToEdit, newText) {
+  // Replace the input element and buttons with a regular div that contains the new text
+  const newDivElement = $('<div>').text(newText);
+  divToEdit.empty().append(newDivElement);
+}

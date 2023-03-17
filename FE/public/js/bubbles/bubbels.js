@@ -30,8 +30,7 @@ function assistantBubble(assistantResponseMessage) {
   const assistantoutputMessageContainer = $('<div>').addClass('assistant-bubble-container').append(assistantResponseMessage);
   assistantoutputMessageContainer.attr('id', 'assistant-bubble-container');
   $(assistantResponseMessage).addClass('assistant-bubble')
-  assistantoutputMessageContainer.attr('id', 'assistant-bubble-container');
- 
+  $(assistantResponseMessage).attr('id', 'assistant-bubble');
   // Add data-messages attribute with current message count
   $(assistantResponseMessage).attr('data-messages', messageCount);
   $('#output-inner').append(assistantoutputMessageContainer);
