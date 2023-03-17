@@ -1,6 +1,7 @@
 
   function userOptionContainer(userOutputMessage){
     if (!userButtonsAdded) {
+      // create an options div with buttons
       const userButtonContainer = $('<div>').addClass('user-options-container').attr('id', 'user-options-container');
       userButtonContainer.attr('data-messages', userOutputMessage.attr('data-messages'));
       const userMessageEditButton = $('<button>').addClass('button').text('Edit').attr('id', 'user-message-edit');
@@ -11,6 +12,8 @@
       userButtonContainer.insertBefore(userOutputMessage);
       userButtonsAdded = true;
       userMessageCopy(userOutputMessage)
+
+      //Untill here 
     } else {
       // if buttons already added, remove them
       $('.user-options-container').remove();
@@ -20,7 +23,7 @@
 
 
   function assistantOptionContainer(assistantResponseMessage){
-      // create div with buttons
+      // create an options div with buttons
       if (!assistantButtonsAdded) {
         const assistantButtonContainer = $('<div>').addClass('assistant-options-container').attr('id', 'assistant-options-container')
         assistantButtonContainer.attr('data-messages', assistantResponseMessage.attr('data-messages'));
@@ -40,3 +43,4 @@
     }
 
 
+ 
