@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 import openai
 import json 
+from edit_history import modify_message
 
 # Define the initial JSON data
 chat_data = {"messages": []}
@@ -28,12 +29,17 @@ def chatbot():
     message = request.json['message']
     return StartToChat(chat_options, message)
 
+
+
 @app.route('/editMessageEndpoint', methods=['POST'])
 def edit_message():
-    index_message = request.json['indexMessage']
-    messageContent = request.json['messageContent']
-    print(f"Index message fetched: {index_message, messageContent}")
-    return 'OK'
+    index_message = int(request.json['index_message']) 
+    message_content = request.json['message_content']
+    print(f"Index message fetched: {index_message, message_content}")
 
+    # Call the modify_message function from the edit_history module
+    modify_message(index_message, message_content)
+
+    return 'OK'
 if __name__ == '__main__':
     app.run()

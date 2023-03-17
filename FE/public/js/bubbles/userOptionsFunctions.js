@@ -76,8 +76,8 @@ function saveChanges(divToEdit, newText) {
 function sendMessageIndex(indexMessagenumber,messageContent) {
   const url = 'http://127.0.0.1:5000/editMessageEndpoint';
   const payload = JSON.stringify({ 
-    indexMessage: indexMessagenumber,
-    messageContent: messageContent
+    index_message: indexMessagenumber,
+    message_content: messageContent
   });
   
   fetch(url, {

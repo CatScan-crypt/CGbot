@@ -1,4 +1,4 @@
-let messageCount = 0; // Initialize message counter
+let messageCount = -1; // Initialize message counter
 
 let userButtonsAdded = false;
 
