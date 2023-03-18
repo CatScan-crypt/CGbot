@@ -15,7 +15,36 @@
   .catch(error => console.error(error));
    }
 
-   
+
+   function sendMessageIndex(indexMessagenumber,messageContent) {
+    const url = 'http://127.0.0.1:5000/editMessageEndpoint';
+    const payload = JSON.stringify({ 
+      index_message: indexMessagenumber,
+      message_content: messageContent
+    });
+    
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: payload
+    })
+    .then(response => {
+      if (response.ok) {
+        res(response)
+        console.log('Message edit sent successfully!');
+      } else {
+        console.error('Error sending message edit:', response.status);
+      }
+    })
+    .catch(error => {
+      console.error('Error sending message edit:', error);
+    });
+  }
+
+
+
    function res(response){
         // Handle response from server
         const reader = response.body.getReader();
@@ -48,3 +77,6 @@
         }
         return readStream();
    }
+
+
+

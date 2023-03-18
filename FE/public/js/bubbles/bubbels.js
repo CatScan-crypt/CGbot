@@ -14,6 +14,7 @@ function userBubble(message) {
 
   // Add data-messages attribute with current message count
   userOutputMessage.attr('data-messages', messageCount);
+  userOutputMessageContainer.attr('data-messages', messageCount);
   $('#output-inner').append(userOutputMessageContainer);
   $('#input').val('');
   $('#input').focus();
@@ -33,6 +34,7 @@ function assistantBubble(assistantResponseMessage) {
   $(assistantResponseMessage).attr('id', 'assistant-bubble');
   // Add data-messages attribute with current message count
   $(assistantResponseMessage).attr('data-messages', messageCount);
+  assistantoutputMessageContainer.attr('data-messages', messageCount);
   $('#output-inner').append(assistantoutputMessageContainer);
   $('#input').val('');
   $('#input').focus();

@@ -54,27 +54,6 @@ function enableEditMode(divToEdit,numberTosend) {
     divToEdit.text(newText);
     saveChanges(divToEdit, newText);
     sendEditToServer(numberTosend,newText)
-    function saveMessages(divToEdit) {
-      // Create an array to hold the messages
-      const messages = [];
-    
-      // Loop through each sibling div
-      divToEdit.parent().nextAll().each(function() {
-        const role = this.id.split("-")[0]; // Extract the role from the id attribute
-        const content = this.innerText.trim(); // Get the text content of the div and trim whitespace
-    
-        // Add the message to the array
-        messages.push({
-          role: role,
-          content: content
-        });
-      });
-    
-      // Convert the messages array to JSON and save it in session storage
-      const json = JSON.stringify({ messages: messages });
-      console.log(json)
-      sessionStorage.setItem('messages', json);
-    }
     
     // Call this function before removing the divs
     saveMessages(divToEdit);
@@ -96,30 +75,24 @@ function saveChanges(divToEdit, newText) {
 }
 
 
+function saveMessages(divToEdit) {
+  // Create an array to hold the messages
+  const messages = [];
 
-function sendMessageIndex(indexMessagenumber,messageContent) {
-  const url = 'http://127.0.0.1:5000/editMessageEndpoint';
-  const payload = JSON.stringify({ 
-    index_message: indexMessagenumber,
-    message_content: messageContent
+  // Loop through each sibling div
+  divToEdit.parent().nextAll().each(function() {
+    const role = this.id.split("-")[0]; // Extract the role from the id attribute
+    const content = this.innerText.trim(); // Get the text content of the div and trim whitespace
+    console.log(this.getAttribute('data-messages'));    // Add the message to the array
+    messages.push({
+      messageNumber: this.getAttribute('data-messages'),
+      role: role,
+      content: content
+    });
   });
-  
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: payload
-  })
-  .then(response => {
-    if (response.ok) {
-      res(response)
-      console.log('Message edit sent successfully!');
-    } else {
-      console.error('Error sending message edit:', response.status);
-    }
-  })
-  .catch(error => {
-    console.error('Error sending message edit:', error);
-  });
+
+  // Convert the messages array to JSON and save it in session storage
+  const json = JSON.stringify({ messages: messages });
+  console.log(json)
+  sessionStorage.setItem(`messages`, json);
 }
