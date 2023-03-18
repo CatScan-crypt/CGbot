@@ -10,36 +10,41 @@
     })
   })
   .then(response => {
-    // Handle response from server
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let chunks = [];
-    
-    const assistantResponseMessage = document.createElement('button');   
-    assistantBubble(assistantResponseMessage);
-    
-    //streaming text reaults to the assistant bubble 
-    function readStream() {
-      return reader.read().then(({ done, value }) => {
-        if (done) {
-          assistantResponseMessage.innerText = decoder.decode(new Uint8Array(chunks));
-  updateScrollbar()
-
-          return;
-        }
-        if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
-          chunks.push(...value);
-          const bytes = new Uint8Array(value);
-          assistantResponseMessage.innerText += decoder.decode(bytes);
-  updateScrollbar()
-
-        } else {
-          console.log('Invalid response body:', value);
-        }
-        return readStream();
-      });
-    }
-    return readStream();
+    res(response)
   })
   .catch(error => console.error(error));
+   }
+
+   
+   function res(response){
+        // Handle response from server
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let chunks = [];
+        
+        const assistantResponseMessage = document.createElement('button');   
+        assistantBubble(assistantResponseMessage);
+        
+        //streaming text reaults to the assistant bubble 
+        function readStream() {
+          return reader.read().then(({ done, value }) => {
+            if (done) {
+              assistantResponseMessage.innerText = decoder.decode(new Uint8Array(chunks));
+      updateScrollbar()
+    
+              return;
+            }
+            if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
+              chunks.push(...value);
+              const bytes = new Uint8Array(value);
+              assistantResponseMessage.innerText += decoder.decode(bytes);
+      updateScrollbar()
+    
+            } else {
+              console.log('Invalid response body:', value);
+            }
+            return readStream();
+          });
+        }
+        return readStream();
    }

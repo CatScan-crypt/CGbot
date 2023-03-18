@@ -40,6 +40,6 @@ def edit_message():
     # Call the modify_message function from the edit_history module
     modify_message(index_message, message_content)
 
-    return 'OK'
+    return StartToChat(chat_options, message_content)
 if __name__ == '__main__':
     app.run()

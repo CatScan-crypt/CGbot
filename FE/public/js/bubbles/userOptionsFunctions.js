@@ -8,7 +8,6 @@ function userMessageCopy(outputMessage) {
   });
 }
 
-
 function assistantMessageCopy(assistantResponseMessage) {
   const assistantButton = $('#assistant-message-copy');
   assistantButton.on('click', function() {
@@ -55,6 +54,31 @@ function enableEditMode(divToEdit,numberTosend) {
     divToEdit.text(newText);
     saveChanges(divToEdit, newText);
     sendEditToServer(numberTosend,newText)
+    function saveMessages(divToEdit) {
+      // Create an array to hold the messages
+      const messages = [];
+    
+      // Loop through each sibling div
+      divToEdit.parent().nextAll().each(function() {
+        const role = this.id.split("-")[0]; // Extract the role from the id attribute
+        const content = this.innerText.trim(); // Get the text content of the div and trim whitespace
+    
+        // Add the message to the array
+        messages.push({
+          role: role,
+          content: content
+        });
+      });
+    
+      // Convert the messages array to JSON and save it in session storage
+      const json = JSON.stringify({ messages: messages });
+      console.log(json)
+      sessionStorage.setItem('messages', json);
+    }
+    
+    // Call this function before removing the divs
+    saveMessages(divToEdit);
+    divToEdit.parent().nextAll().remove();
   });
   
   // Append the buttons to the div
@@ -89,12 +113,13 @@ function sendMessageIndex(indexMessagenumber,messageContent) {
   })
   .then(response => {
     if (response.ok) {
-      console.log('Message index sent successfully!');
+      res(response)
+      console.log('Message edit sent successfully!');
     } else {
-      console.error('Error sending message index:', response.status);
+      console.error('Error sending message edit:', response.status);
     }
   })
   .catch(error => {
-    console.error('Error sending message index:', error);
+    console.error('Error sending message edit:', error);
   });
 }
