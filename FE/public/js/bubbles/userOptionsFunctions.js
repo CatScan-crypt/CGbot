@@ -1,4 +1,4 @@
-
+//needs refactoring 
 function userMessageCopy(outputMessage) {
   const userMessageButton = $('#user-message-copy');
   userMessageButton.on('click', function() {
@@ -42,7 +42,9 @@ function enableEditMode(divToEdit,numberTosend) {
   // Create cancel and approve buttons
   const cancelButton = $('<button>').text('Cancel');
   const approveButton = $('<button>').text('Approve');
-  
+  const pre = $('<button>').text('->');
+  const after = $('<button>').text('<-');  
+
   // When the user clicks the "Cancel" button, disable the edit mode
   cancelButton.on('click', () => {
     saveChanges(divToEdit, currentText);
@@ -54,7 +56,8 @@ function enableEditMode(divToEdit,numberTosend) {
     divToEdit.text(newText);
     saveChanges(divToEdit, newText);
     sendEditToServer(numberTosend,newText)
-    
+    divToEdit.append(after)
+    divToEdit.append(pre)
     // Call this function before removing the divs
     saveMessages(divToEdit);
     divToEdit.parent().nextAll().remove();
