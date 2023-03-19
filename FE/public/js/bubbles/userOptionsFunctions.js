@@ -43,8 +43,8 @@ function enableEditMode(divToEdit,numberTosend,) {
   // Create cancel and approve buttons
   const cancelButton = $('<button>').text('Cancel');
   const approveButton = $('<button>').text('Approve');
-  const backwards = $('<button>').text('->').attr('id', 'backwards').addClass('backwards');; 
-  const forwards = $('<button>').text('<-').attr('id', 'forwards').addClass('forwards');;
+  const backwards = $('<button>').text('->').attr('id', 'backwards'); 
+  const forwards = $('<button>').text('<-').attr('id', 'forwards');
 
   // When the user clicks the "Cancel" button, disable the edit mode
   cancelButton.on('click', () => {
@@ -57,7 +57,8 @@ function enableEditMode(divToEdit,numberTosend,) {
     divToEdit.text(newText);
     saveChanges(divToEdit, newText);
     sendEditToServer(numberTosend,newText)
-    if ($('.backwards').length === 0) {
+    console.log("fff" +divToEdit.find('#backwards').length )
+    if (!divToEdit.parent().find('#backwards').length) {
       divToEdit.parent().append(forwards);
       divToEdit.parent().append(backwards)
     }
