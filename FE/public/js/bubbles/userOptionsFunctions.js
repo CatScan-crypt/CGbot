@@ -44,8 +44,11 @@ function enableEditMode(divToEdit,numberTosend,) {
   const cancelButton = $('<button>').text('Cancel');
   const approveButton = $('<button>').text('Approve');
   const backwards = $('<button>').text('->').attr('id', 'backwards'); 
+  backwards.attr('data-messages', divToEdit.attr('data-messages'));
+  backwards.attr('currentMessageSetIndex', 0);
   const forwards = $('<button>').text('<-').attr('id', 'forwards');
-
+  forwards.attr('data-messages', divToEdit.attr('data-messages'));
+  forwards.attr('currentMessageSetIndex', 0);
   // When the user clicks the "Cancel" button, disable the edit mode
   cancelButton.on('click', () => {
     saveChanges(divToEdit, currentText);
@@ -53,11 +56,24 @@ function enableEditMode(divToEdit,numberTosend,) {
 
   // When the user clicks the "Approve" button, update the div content with the new text and disable the edit mode
   approveButton.on('click', () => {
+    let y = divToEdit.attr('data-messages') 
+        x = `currentMessageSetIndex[${y}]`
+    
+    console.log(sessionStorage.getItem(x))
+    
+    if(!sessionStorage.getItem(x)){
+      
+      sessionStorage.setItem(x, 0);
+      console.log(sessionStorage.getItem(x));
+      console.log("mewo");
+      
+    }else{
+    }
+
     const newText = inputElement.val();
     divToEdit.text(newText);
     saveChanges(divToEdit, newText);
     sendEditToServer(numberTosend,newText)
-    console.log("fff" +divToEdit.find('#backwards').length )
     if (!divToEdit.parent().find('#backwards').length) {
       divToEdit.parent().append(forwards);
       divToEdit.parent().append(backwards)
@@ -98,6 +114,7 @@ function saveMessages(divToEdit) {
   });
   let x = divToEdit.attr('data-messages')
   y = `messageSets${x}`
+  console.log(y);
   // Get existing message sets from session storage
   const messageSets = JSON.parse(sessionStorage.getItem(y))|| [];
   console.log('Saved content:', x);
@@ -111,46 +128,49 @@ console.log('New saved content:', messageSets);
 }
 
 
-let currentMessageSetIndex = 0;
-sessionStorage.setItem('currentMessageSetIndex', 1);
 $(document).on('click', '#backwards', function() {
-
-  console.log(currentMessageSetIndex);
+let currentValue = $(this).attr('currentMessageSetIndex');
   const messagesSetlocation = $(this).closest('#user-bubble-container, #assistant-bubble-container').find('#user-bubble, #assistant-bubble');
   const messageSetIndex = messagesSetlocation.attr('data-messages');
+  x = `currentMessageSetIndex[${messageSetIndex}]`
   y = `messageSets${messageSetIndex}`
   // Get existing message sets from session storage
   const messageSets = JSON.parse(sessionStorage.getItem(y));
-  
-  if (currentMessageSetIndex >= 0) {
-    currentMessageSetIndex--;
-    $('#forwards').prop('disabled', false);
+  console.log(messageSets.length  );
+  if (sessionStorage.getItem(x) <= messageSets.length  ) {
+    sessionStorage.setItem(x, +sessionStorage.getItem(x) - 1);
+
+    $('#forwards').attr('id', 'forwards').prop('disabled', false);
   }
-  
-  if (currentMessageSetIndex === 0) {
-    $('#backwards').prop('disabled', true);
+  if (sessionStorage.getItem(x) < 1) {
+    $('#backwards').attr('id', 'backwards').prop('disabled', true);
   }
-  
-  console.log(messageSets[currentMessageSetIndex]);
+  console.log(messageSets[sessionStorage.getItem(x)]);
 });
 
+
+
 $(document).on('click', '#forwards', function() {
- 
+  console.log(sessionStorage.getItem(x));
+
+  let currentValue = $(this).attr('currentMessageSetIndex');
   const messagesSetlocation = $(this).closest('#user-bubble-container, #assistant-bubble-container').find('#user-bubble, #assistant-bubble');
   const messageSetIndex = messagesSetlocation.attr('data-messages');
-
    y = `messageSets${messageSetIndex}`
   // Get existing message sets from session storage
   const messageSets = JSON.parse(sessionStorage.getItem(y));
-  
-  if (currentMessageSetIndex >= 0) {
-    currentMessageSetIndex++;
-    $('#backwards').prop('disabled', false);
+  if (sessionStorage.getItem(x) < messageSets.length  ) {
+    sessionStorage.setItem(x, +sessionStorage.getItem(x) + 1);
+    $('#backwards').attr('id', 'backwards').prop('disabled', false);
+  }
+  if (sessionStorage.getItem(x) == messageSets.length  ) {
+    $('#forwards').attr('id', 'forwards').prop('disabled', true);
   }
   
-  if (currentMessageSetIndex == messageSets.length ) {
-    $('#forwards').prop('disabled', true);
-  }
-  
-  console.log(messageSets[currentMessageSetIndex]);
+
+  console.log(messageSets[sessionStorage.getItem(x)]);
+  console.log(sessionStorage.getItem(x));
 });
+
+
+
