@@ -95,37 +95,43 @@ function saveMessages(divToEdit) {
   console.log('Saved content:', messageSets);
 }
 
-$(document).on('click', '#backwards', function() {
-  const messagesSetlocation = $(this).closest('#user-bubble-container, #assistant-bubble-container').find('#user-bubble, #assistant-bubble');
-  const messageSetIndex = messagesSetlocation.attr('data-messages');
+
+$(document).on('click', '#backwards , #forwards', function() {
+  currentButton = $(this).attr('id')
+  currentContainer =$(this).closest('#user-bubble-container, #assistant-bubble-container')
+  oppositeButton = currentContainer.find('#backwards , #forwards')
+
+  messagesSetlocation = currentContainer.find('#user-bubble, #assistant-bubble');
+  messageSetIndex = messagesSetlocation.attr('data-messages');
   sessionMessagesArray = `messageSets${messageSetIndex}`
   currentMessageSetIndex = `currentMessageSetIndex[${messageSetIndex}]`
-  // Get existing message sets from session storage
-  const messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
-  if (sessionStorage.getItem(currentMessageSetIndex) > 0 ) {
-    sessionStorage.setItem(currentMessageSetIndex, +sessionStorage.getItem(currentMessageSetIndex) - 1);
-    console.log(messageSets[sessionStorage.getItem(currentMessageSetIndex)]);
-    $(this).closest('#user-bubble-container, #assistant-bubble-container').find('#forwards').prop('disabled', false);
-  }
-  if (sessionStorage.getItem(x) <= 0) {
+  messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
+  SessionCurrentMessageSetByIndex = sessionStorage.getItem(currentMessageSetIndex)
+  currentMessageSetByIndex = messageSets[SessionCurrentMessageSetByIndex]
+  
+  function decrement(){ sessionStorage.setItem(currentMessageSetIndex, +SessionCurrentMessageSetByIndex- 1);}
+  function increment (){ sessionStorage.setItem(currentMessageSetIndex, +SessionCurrentMessageSetByIndex + 1);}
+
+  
+  if(currentButton == 'backwards' ){
+    if (sessionStorage.getItem(currentMessageSetIndex) > 0 ) {
+      decrement()
+      console.log(currentMessageSetByIndex)
+      $(oppositeButton).prop('disabled', false);
+    }
+  if (sessionStorage.getItem(currentMessageSetIndex) <= 0) {
     $(this).prop('disabled', true);
+  }
+  }
+
+  if(currentButton == 'forwards' ){
+     if ( sessionStorage.getItem(currentMessageSetIndex) <  messageSets.length  ) {
+      increment()
+      console.log(currentMessageSetByIndex)
+    $(oppositeButton).prop('disabled', false);
+  }
+  if (sessionStorage.getItem(currentMessageSetIndex) >= messageSets.length  ) {
+    $(this).prop('disabled', true);
+  }
   }
 });
-
-$(document).on('click', '#forwards', function() {
-  const messagesSetlocation = $(this).closest('#user-bubble-container, #assistant-bubble-container').find('#user-bubble, #assistant-bubble');
-  const messageSetIndex = messagesSetlocation.attr('data-messages');
-  sessionMessagesArray = `messageSets${messageSetIndex}`
-  currentMessageSetIndex = `currentMessageSetIndex[${messageSetIndex}]`
-  // Get existing message sets from session storage
-  const messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
-  if ( sessionStorage.getItem(currentMessageSetIndex) <  messageSets.length  ) {
-    sessionStorage.setItem(currentMessageSetIndex, +sessionStorage.getItem(currentMessageSetIndex) + 1);
-    console.log(messageSets[sessionStorage.getItem(currentMessageSetIndex)]);
-    if(sessionStorage.getItem(currentMessageSetIndex) - messageSets.length == 0    )
-    $(this).closest('#user-bubble-container, #assistant-bubble-container').find('#backwards').prop('disabled', false);
-  }
-  if (sessionStorage.getItem(x) >= messageSets.length  ) {
-    $(this).prop('disabled', true);
-  }
-  });
