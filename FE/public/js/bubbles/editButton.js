@@ -98,7 +98,7 @@ function saveMessages(divToEdit) {
 
 $(document).on('click', '#backwards , #forwards', function() {
   currentButton = $(this).attr('id')
-  currentContainer =$(this).closest('#user-bubble-container, #assistant-bubble-container')
+  currentContainer = $(this).closest('#user-bubble-container, #assistant-bubble-container')
   oppositeButton = currentContainer.find('#backwards , #forwards')
 
   messagesSetlocation = currentContainer.find('#user-bubble, #assistant-bubble');
@@ -106,32 +106,25 @@ $(document).on('click', '#backwards , #forwards', function() {
   sessionMessagesArray = `messageSets${messageSetIndex}`
   currentMessageSetIndex = `currentMessageSetIndex[${messageSetIndex}]`
   messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
-  SessionCurrentMessageSetByIndex = sessionStorage.getItem(currentMessageSetIndex)
-  currentMessageSetByIndex = messageSets[SessionCurrentMessageSetByIndex]
-  
-  function decrement(){ sessionStorage.setItem(currentMessageSetIndex, +SessionCurrentMessageSetByIndex- 1);}
-  function increment (){ sessionStorage.setItem(currentMessageSetIndex, +SessionCurrentMessageSetByIndex + 1);}
+  indexLength = messageSets.length 
 
-  
-  if(currentButton == 'backwards' ){
-    if (sessionStorage.getItem(currentMessageSetIndex) > 0 ) {
-      decrement()
-      console.log(currentMessageSetByIndex)
-      $(oppositeButton).prop('disabled', false);
-    }
-  if (sessionStorage.getItem(currentMessageSetIndex) <= 0) {
-    $(this).prop('disabled', true);
-  }
+  function goDirection(direction) {
+    const current = +sessionStorage.getItem(currentMessageSetIndex);
+    const newCurrent = direction === 'backwards' ? current - 1 : current + 1;
+    sessionStorage.setItem(currentMessageSetIndex, newCurrent);
   }
 
-  if(currentButton == 'forwards' ){
-     if ( sessionStorage.getItem(currentMessageSetIndex) <  messageSets.length  ) {
-      increment()
-      console.log(currentMessageSetByIndex)
-    $(oppositeButton).prop('disabled', false);
-  }
-  if (sessionStorage.getItem(currentMessageSetIndex) >= messageSets.length  ) {
-    $(this).prop('disabled', true);
-  }
-  }
+  function populateConsole(){console.log(messageSets[sessionStorage.getItem(currentMessageSetIndex)])}
+  function checkIf(currentMessageSetIndex){return sessionStorage.getItem(currentMessageSetIndex)}
+
+  switch(currentButton) {
+    case 'backwards':
+      (checkIf(currentMessageSetIndex) > 0 ) ? (goDirection('backwards'), populateConsole(), $(oppositeButton).prop('disabled', false) ) : null;
+      (checkIf(currentMessageSetIndex) <= 0 ) ? $(this).prop('disabled', true) : null;
+      break;
+    case 'forwards':
+    (checkIf(currentMessageSetIndex)  <  indexLength) ? (goDirection('forwards'), populateConsole(), $(oppositeButton).prop('disabled', false)) : null;
+    (checkIf(currentMessageSetIndex) >= indexLength) ? $(this).prop('disabled', true) : null;
+      break;
+}
 });
