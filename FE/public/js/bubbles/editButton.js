@@ -20,10 +20,7 @@ function enableEditMode(divToEdit,numberTosend,) {
   const cancelButton = $('<button>').text('Cancel');
   const approveButton = $('<button>').text('Approve');
   const backwards = $('<button>').text('->').attr('id', 'backwards'); 
-  backwards.attr('data-messages', divToEdit.attr('data-messages'));
   const forwards = $('<button>').text('<-').attr('id', 'forwards');
-  forwards.attr('data-messages', divToEdit.attr('data-messages'));
-
   // When the user clicks the "Cancel" button, disable the edit mode
   cancelButton.on('click', () => {
     saveChanges(divToEdit, currentText);
@@ -68,16 +65,16 @@ function saveMessages(divToEdit) {
   // Get the messages from all subsequent containers with the same role
   const messages = [];
   console.log(divToEdit[0].innerText);
-  mewo = divToEdit[0].innerText
-  mewo2 = divToEdit.attr('id')
-  mewo3 = mewo2.split('-')[0]
- 
-  messages.push({ role:mewo3, content: mewo });
+  firstMessageText = divToEdit[0].innerText
+  firstMessageLocation = divToEdit.attr('id')
+  firstMessageRole = firstMessageLocation.split('-')[0]
+  messages.push({ role:firstMessageRole, content: firstMessageText });
+
   divToEdit.parent().nextAll().each(function() {
     const id = $(this).attr('id');
     const role = id.split('-')[0];
-      const messageText = this.innerText.trim();
-      messages.push({ role: role, content: messageText });
+    const messageText = this.innerText.trim();
+    messages.push({ role: role, content: messageText });
   });
   let currentMessageArrayIndex = divToEdit.attr('data-messages')
   const messageSetsKey = `messageSets${currentMessageArrayIndex}`;
@@ -101,23 +98,24 @@ $(document).on('click', '#backwards , #forwards', function() {
   const messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
   const indexLength = messageSets.length 
 
-  function mewo() {return messageSets[sessionStorage.getItem(currentMessageSetIndex)]}
-
-
+  function messagesArray() {return messageSets[sessionStorage.getItem(currentMessageSetIndex)]}
   function populateOutput() {
     const outputArea = document.getElementById('output-inner');
     outputArea.innerHTML = '';
-       mewo = mewo()
-       console.log(mewo.messages);
-       mewo.messages.forEach((messages) => {
+    const backwards = $('<button>').text('->').attr('id', 'backwards'); 
+    const forwards = $('<button>').text('<-').attr('id', 'forwards');
+
+    messagesArray = messagesArray()
+       console.log(messagesArray.messages);
+       messagesArray.messages.forEach((messages) => {
       if (messages.role == 'user') {
         userBubble(messages.content);
       } else {
         assistantBubble(messages.content);
-      }
+      } 
     });
   }
-  function populateConsole(){populateOutput(); console.log(mewo = mewo())}
+  function populateConsole(){populateOutput(); console.log(messagesArray = messagesArray())}
   function checkIf(currentMessageSetIndex){return sessionStorage.getItem(currentMessageSetIndex)}
   function goDirection(direction) {
     current = +sessionStorage.getItem(currentMessageSetIndex);
