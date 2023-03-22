@@ -12,6 +12,20 @@ $(document).on('click', '#user-message-edit, #assistant-message-edit', function(
 
   // Replace the div content with an input element that contains the current text
 function enableEditMode(divToEdit,numberTosend,) {
+  const messages = [];
+  const fatherBubble = divToEdit.attr('data-messages')
+  console.log(fatherBubble);
+  firstMessageText = divToEdit[0].innerText
+  console.log(firstMessageText);
+  firstMessageLocation = divToEdit.attr('id')
+  firstMessageRole = firstMessageLocation.split('-')[0]
+  messages.push({father:fatherBubble, childrens: 'true', role:firstMessageRole, content: firstMessageText });
+  const messageSetsKey = `messageSets${fatherBubble}`;
+  messageSets = []
+  messageSets.push({  messages });
+  sessionStorage.setItem(messageSetsKey, JSON.stringify(messageSets));
+
+
   const currentText = divToEdit.text();
   const inputElement = $('<input>').val(currentText);
   divToEdit.empty().append(inputElement);
@@ -35,6 +49,7 @@ function enableEditMode(divToEdit,numberTosend,) {
       sessionStorage.setItem(currentMessageArrayIndex, 0);
     }
     const newText = inputElement.val();
+    
     divToEdit.text(newText);
     saveChanges(divToEdit, newText);
     sendEditToServer(numberTosend,newText)
@@ -57,6 +72,7 @@ function enableEditMode(divToEdit,numberTosend,) {
 }
   // Replace the input element and buttons with a regular div that contains the new text
 function saveChanges(divToEdit, newText) {
+
   const newDivElement = $('<div>').text(newText);
   divToEdit.empty().append(newDivElement);
 }
@@ -64,23 +80,25 @@ function saveChanges(divToEdit, newText) {
 function saveMessages(divToEdit) {
   // Get the messages from all subsequent containers with the same role
   const messages = [];
-  console.log(divToEdit[0].innerText);
-  firstMessageText = divToEdit[0].innerText
-  firstMessageLocation = divToEdit.attr('id')
-  firstMessageRole = firstMessageLocation.split('-')[0]
-  messages.push({ role:firstMessageRole, content: firstMessageText });
-
+  const fatherBubble = divToEdit.attr('data-messages')
   divToEdit.parent().nextAll().each(function() {
     const id = $(this).attr('id');
     const role = id.split('-')[0];
     const messageText = this.innerText.trim();
-    messages.push({ role: role, content: messageText });
+    messages.push({father:fatherBubble, role: role, content: messageText });
   });
   let currentMessageArrayIndex = divToEdit.attr('data-messages')
   const messageSetsKey = `messageSets${currentMessageArrayIndex}`;
   let messageSets = JSON.parse(sessionStorage.getItem(messageSetsKey)) || [];
+  // Merge the new messages with the existing messages
+  const mergedMessages = messageSets.length > 0
+    ? messageSets[0].messages.concat(messages)
+    : messages;
+
+  // Update the messageSets array with the merged messages
+  messageSets = [{ messages: mergedMessages }];
   // Get the index for the new message set
-  messageSets.push({ messages: messages });
+
   sessionStorage.setItem(messageSetsKey, JSON.stringify(messageSets));
   // Log the saved content to the console
   console.log('Saved content:', messageSets);
@@ -102,20 +120,20 @@ $(document).on('click', '#backwards , #forwards', function() {
   function populateOutput() {
     const outputArea = document.getElementById('output-inner');
     outputArea.innerHTML = '';
-    const backwards = $('<button>').text('->').attr('id', 'backwards'); 
-    const forwards = $('<button>').text('<-').attr('id', 'forwards');
 
-    messagesArray = messagesArray()
+       messagesArray = messagesArray()
        console.log(messagesArray.messages);
        messagesArray.messages.forEach((messages) => {
       if (messages.role == 'user') {
+        if(messages.childrens){console.log(messages.childrens);}
         userBubble(messages.content);
       } else {
+        if(messages.childrens){console.log(messages.childrens);}
         assistantBubble(messages.content);
       } 
     });
   }
-  function populateConsole(){populateOutput(); console.log(messagesArray = messagesArray())}
+  function populateConsole(){populateOutput(); console.log(messagesArray )}
   function checkIf(currentMessageSetIndex){return sessionStorage.getItem(currentMessageSetIndex)}
   function goDirection(direction) {
     current = +sessionStorage.getItem(currentMessageSetIndex);

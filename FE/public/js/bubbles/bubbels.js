@@ -12,9 +12,24 @@ function userBubble(message) {
   userOutputMessage.attr('id', 'user-bubble');
   userOutputMessageContainer.append(userOutputMessage);
 
+
+  // const messageSetIndex = messageCount
+  // const sessionMessagesArray = `messageSets${messageSetIndex}`
+  // const messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
+  // const currentMessageSetIndex = `currentMessageSetIndex[${messageCount}]`
+  // function messagesArray() {return messageSets[sessionStorage.getItem(currentMessageSetIndex)]}
+
+  // messagesArray.messages.forEach((messages) => {
+  // if(messages.childrens){messagesArray = messagesArray(); console.log(messages.childrens, messagesArray);}
+  // })
   // Add data-messages attribute with current message count
+
   userOutputMessage.attr('data-messages', messageCount);
   userOutputMessageContainer.attr('data-messages', messageCount);
+  // function messagesArray() {return messageSets[sessionStorage.getItem(messageCount)]}
+  // messagesArray = messagesArray()
+  
+  //  if(sessionStorage.getItem(`currentMessageSetIndex[${messageCount}]`) ){console.log(sessionStorage.getItem(`currentMessageSetIndex[${messageCount}]`));}
   $('#output-inner').append(userOutputMessageContainer);
   $('#input').val('');
   $('#input').focus();
