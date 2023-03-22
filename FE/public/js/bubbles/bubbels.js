@@ -4,32 +4,22 @@ let userButtonsAdded = false;
 
 let assistantButtonsAdded = false;
 
-function userBubble(message) {
+function userBubble(message, addbuttons) {
   messageCount++; // Increment message counter
   const userOutputMessageContainer = $('<div>').addClass('user-bubble-container');
   userOutputMessageContainer.attr('id', 'user-bubble-container');
   const userOutputMessage = $('<button>').addClass('user-bubble').text(message);
   userOutputMessage.attr('id', 'user-bubble');
   userOutputMessageContainer.append(userOutputMessage);
-
-
-  // const messageSetIndex = messageCount
-  // const sessionMessagesArray = `messageSets${messageSetIndex}`
-  // const messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
-  // const currentMessageSetIndex = `currentMessageSetIndex[${messageCount}]`
-  // function messagesArray() {return messageSets[sessionStorage.getItem(currentMessageSetIndex)]}
-
-  // messagesArray.messages.forEach((messages) => {
-  // if(messages.childrens){messagesArray = messagesArray(); console.log(messages.childrens, messagesArray);}
-  // })
-  // Add data-messages attribute with current message count
-
   userOutputMessage.attr('data-messages', messageCount);
   userOutputMessageContainer.attr('data-messages', messageCount);
-  // function messagesArray() {return messageSets[sessionStorage.getItem(messageCount)]}
-  // messagesArray = messagesArray()
+  const backwards = $('<button>').text('->').attr('id', 'backwards'); 
+  const forwards = $('<button>').text('<-').attr('id', 'forwards');
   
-  //  if(sessionStorage.getItem(`currentMessageSetIndex[${messageCount}]`) ){console.log(sessionStorage.getItem(`currentMessageSetIndex[${messageCount}]`));}
+  if(addbuttons==true){
+    userOutputMessageContainer.append(forwards)
+    userOutputMessageContainer.append(backwards)
+  }
   $('#output-inner').append(userOutputMessageContainer);
   $('#input').val('');
   $('#input').focus();

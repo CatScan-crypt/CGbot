@@ -125,8 +125,12 @@ $(document).on('click', '#backwards , #forwards', function() {
        console.log(messagesArray.messages);
        messagesArray.messages.forEach((messages) => {
       if (messages.role == 'user') {
-        if(messages.childrens){console.log(messages.childrens);}
-        userBubble(messages.content);
+        let a = false
+        if(messages.childrens){
+           a = true 
+          }
+        console.log(a);
+        userBubble(messages.content, a);
       } else {
         if(messages.childrens){console.log(messages.childrens);}
         assistantBubble(messages.content);
