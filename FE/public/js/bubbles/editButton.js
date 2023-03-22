@@ -67,10 +67,15 @@ function saveChanges(divToEdit, newText) {
 function saveMessages(divToEdit) {
   // Get the messages from all subsequent containers with the same role
   const messages = [];
+  console.log(divToEdit[0].innerText);
+  mewo = divToEdit[0].innerText
+  mewo2 = divToEdit.attr('id')
+  mewo3 = mewo2.split('-')[0]
+ 
+  messages.push({ role:mewo3, content: mewo });
   divToEdit.parent().nextAll().each(function() {
     const id = $(this).attr('id');
     const role = id.split('-')[0];
-    console.log(role);
       const messageText = this.innerText.trim();
       messages.push({ role: role, content: messageText });
   });
@@ -84,8 +89,6 @@ function saveMessages(divToEdit) {
   console.log('Saved content:', messageSets);
 }
 
-
-
 $(document).on('click', '#backwards , #forwards', function() {
   const currentButton = $(this).attr('id')
   const currentContainer = $(this).closest('#user-bubble-container, #assistant-bubble-container')
@@ -97,14 +100,30 @@ $(document).on('click', '#backwards , #forwards', function() {
   const currentMessageSetIndex = `currentMessageSetIndex[${messageSetIndex}]`
   const messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
   const indexLength = messageSets.length 
+
+  function mewo() {return messageSets[sessionStorage.getItem(currentMessageSetIndex)]}
+
+
+  function populateOutput() {
+    const outputArea = document.getElementById('output-inner');
+    outputArea.innerHTML = '';
+       mewo = mewo()
+       console.log(mewo.messages);
+       mewo.messages.forEach((messages) => {
+      if (messages.role == 'user') {
+        userBubble(messages.content);
+      } else {
+        assistantBubble(messages.content);
+      }
+    });
+  }
+  function populateConsole(){populateOutput(); console.log(mewo = mewo())}
+  function checkIf(currentMessageSetIndex){return sessionStorage.getItem(currentMessageSetIndex)}
   function goDirection(direction) {
     current = +sessionStorage.getItem(currentMessageSetIndex);
     newCurrent = direction === 'backwards' ? current - 1 : current + 1;
     sessionStorage.setItem(currentMessageSetIndex, newCurrent);
   }
-
-  function populateConsole(){console.log(messageSets[sessionStorage.getItem(currentMessageSetIndex)])}
-  function checkIf(currentMessageSetIndex){return sessionStorage.getItem(currentMessageSetIndex)}
 
   switch(currentButton) {
     case 'backwards':
@@ -117,3 +136,7 @@ $(document).on('click', '#backwards , #forwards', function() {
       break;
 }
 });
+
+
+
+
