@@ -14,14 +14,13 @@ $(document).on('click', '#user-message-edit, #assistant-message-edit', function(
 function enableEditMode(divToEdit,numberTosend,) {
   const messages = [];
   const fatherBubble = divToEdit.attr('data-messages')
-  console.log(fatherBubble);
+  const messageSetsKey = `messageSets${fatherBubble}`;
+  messageSets = []
   firstMessageText = divToEdit[0].innerText
-  console.log(firstMessageText);
   firstMessageLocation = divToEdit.attr('id')
   firstMessageRole = firstMessageLocation.split('-')[0]
   messages.push({father:fatherBubble, childrens: 'true', role:firstMessageRole, content: firstMessageText });
-  const messageSetsKey = `messageSets${fatherBubble}`;
-  messageSets = []
+
   messageSets.push({  messages });
   sessionStorage.setItem(messageSetsKey, JSON.stringify(messageSets));
 
@@ -62,7 +61,7 @@ function enableEditMode(divToEdit,numberTosend,) {
     divToEdit.parent().find('#forwards').prop('disabled', true);
     divToEdit.parent().find('#backwards').prop('disabled', false);
     divToEdit.parent().nextAll().remove();
-    sessionStorage.setItem(currentMessageArrayIndex, +sessionStorage.getItem(currentMessageArrayIndex) + 1);
+    // sessionStorage.setItem(currentMessageArrayIndex, +sessionStorage.getItem(currentMessageArrayIndex) + 1);
   });
   
   // Append the buttons to the div
@@ -103,60 +102,3 @@ function saveMessages(divToEdit) {
   // Log the saved content to the console
   console.log('Saved content:', messageSets);
 }
-
-$(document).on('click', '#backwards , #forwards', function() {
-  const currentButton = $(this).attr('id')
-  const currentContainer = $(this).closest('#user-bubble-container, #assistant-bubble-container')
-  const oppositeButton = currentContainer.find('#backwards , #forwards')
-
-  const messagesSetlocation = currentContainer.find('#user-bubble, #assistant-bubble');
-  const messageSetIndex = messagesSetlocation.attr('data-messages');
-  const sessionMessagesArray = `messageSets${messageSetIndex}`
-  const currentMessageSetIndex = `currentMessageSetIndex[${messageSetIndex}]`
-  const messageSets = JSON.parse(sessionStorage.getItem(sessionMessagesArray));
-  const indexLength = messageSets.length 
-
-  function messagesArray() {return messageSets[sessionStorage.getItem(currentMessageSetIndex)]}
-  function populateOutput() {
-    const outputArea = document.getElementById('output-inner');
-    outputArea.innerHTML = '';
-
-       messagesArray = messagesArray()
-       console.log(messagesArray.messages);
-       messagesArray.messages.forEach((messages) => {
-      if (messages.role == 'user') {
-        let a = false
-        if(messages.childrens){
-           a = true 
-          }
-        console.log(a);
-        userBubble(messages.content, a);
-      } else {
-        if(messages.childrens){console.log(messages.childrens);}
-        assistantBubble(messages.content);
-      } 
-    });
-  }
-  function populateConsole(){populateOutput(); console.log(messagesArray )}
-  function checkIf(currentMessageSetIndex){return sessionStorage.getItem(currentMessageSetIndex)}
-  function goDirection(direction) {
-    current = +sessionStorage.getItem(currentMessageSetIndex);
-    newCurrent = direction === 'backwards' ? current - 1 : current + 1;
-    sessionStorage.setItem(currentMessageSetIndex, newCurrent);
-  }
-
-  switch(currentButton) {
-    case 'backwards':
-      (checkIf(currentMessageSetIndex)  > 0 ) ? (goDirection('backwards'), populateConsole(), $(oppositeButton).prop('disabled', false) ) : null;
-      (checkIf(currentMessageSetIndex) <= 0 ) ? $(this).prop('disabled', true) : null;
-      break;
-    case 'forwards':
-    (checkIf(currentMessageSetIndex)  < indexLength) ? (goDirection('forwards'), populateConsole(), $(oppositeButton).prop('disabled', false)) : null;
-    (checkIf(currentMessageSetIndex) >= indexLength) ? $(this).prop('disabled', true) : null;
-      break;
-}
-});
-
-
-
-

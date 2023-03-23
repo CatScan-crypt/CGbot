@@ -50,9 +50,10 @@
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let chunks = [];
-        
-        const assistantResponseMessage = document.createElement('button');   
-        assistantBubble(assistantResponseMessage);
+        const assistantResponseMessage = document.createElement('button')
+        assistantResponseMessage.classList.add('assistant-bubble');
+
+        addBubble(assistantResponseMessage, 'assistant')
         
         //streaming text reaults to the assistant bubble 
         function readStream() {

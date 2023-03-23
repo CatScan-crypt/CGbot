@@ -4,50 +4,46 @@ let userButtonsAdded = false;
 
 let assistantButtonsAdded = false;
 
-function userBubble(message, addbuttons) {
+
+function addBubble(message, sender , addbuttons) {
   messageCount++; // Increment message counter
-  const userOutputMessageContainer = $('<div>').addClass('user-bubble-container');
-  userOutputMessageContainer.attr('id', 'user-bubble-container');
-  const userOutputMessage = $('<button>').addClass('user-bubble').text(message);
-  userOutputMessage.attr('id', 'user-bubble');
-  userOutputMessageContainer.append(userOutputMessage);
-  userOutputMessage.attr('data-messages', messageCount);
-  userOutputMessageContainer.attr('data-messages', messageCount);
-  const backwards = $('<button>').text('->').attr('id', 'backwards'); 
-  const forwards = $('<button>').text('<-').attr('id', 'forwards');
+  const bubbleContainer = $('<div>').addClass(`${sender}-bubble-container`);
+  bubbleContainer.attr('id', `${sender}-bubble-container`);
   
-  if(addbuttons==true){
-    userOutputMessageContainer.append(forwards)
-    userOutputMessageContainer.append(backwards)
+  let bubble;
+  if (sender === 'user') {
+    bubble = $('<button>').addClass(`${sender}-bubble`).text(message);
+    bubble.attr('id', `${sender}-bubble`);
+  } else {
+    bubble = $('<div>').append(message)
+   bubble.attr('id', `${sender}-bubble`);
   }
-  $('#output-inner').append(userOutputMessageContainer);
+  
+  bubbleContainer.append(bubble);
+  bubble.attr('data-messages', messageCount);
+  bubbleContainer.attr('data-messages', messageCount);
+  $('#output-inner').append(bubbleContainer);
   $('#input').val('');
   $('#input').focus();
   updateScrollbar();
 
   // Event listener to open option menu
-  userOutputMessage.on('click', function() {
-    userOptionContainer(userOutputMessage , "user")
-  });
+  if (sender === 'user') {
+    bubble.on('click', function() {
+      userOptionContainer(bubble);
+    });
+  } else {
+    bubble.on('click', function() {
+      assistantOptionContainer(bubble)
+  })
 }
 
-function assistantBubble(assistantResponseMessage) {
-  messageCount++; // Increment message counter
-  const assistantoutputMessageContainer = $('<div>').addClass('assistant-bubble-container').append(assistantResponseMessage);
-  assistantoutputMessageContainer.attr('id', 'assistant-bubble-container');
-  $(assistantResponseMessage).addClass('assistant-bubble')
-  $(assistantResponseMessage).attr('id', 'assistant-bubble');
-  // Add data-messages attribute with current message count
-  $(assistantResponseMessage).attr('data-messages', messageCount);
-  assistantoutputMessageContainer.attr('data-messages', messageCount);
-  $('#output-inner').append(assistantoutputMessageContainer);
-  $('#input').val('');
-  $('#input').focus();
-  updateScrollbar();
+if(addbuttons){
+  const backwards = $('<button>').text('->').attr('id', 'backwards'); 
+  const forwards = $('<button>').text('<-').attr('id', 'forwards');
+  bubbleContainer.append(forwards)
+  bubbleContainer.append(backwards)
+}
 
-  // Event listener to open option menu
-  $(assistantResponseMessage).on('click', function() {
-    assistantOptionContainer($(assistantResponseMessage))
-  });
 }
 
