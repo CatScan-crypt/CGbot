@@ -1,12 +1,12 @@
-let messageCount = -1; // Initialize message counter
-
-let userButtonsAdded = false;
-
-let assistantButtonsAdded = false;
-
+let containerNumber = 0; // Initialize message counter
++sessionStorage.setItem("MessagesArrayCounter[0]" , null)
 
 function addBubble(message, sender , addbuttons) {
-  messageCount++; // Increment message counter
+  containerNumber++;
+  if(!sessionStorage.getItem(`MessagesArrayCounter${containerNumber}`)){
+  +sessionStorage.setItem(`MessagesArrayCounter${containerNumber}` , containerNumber)
+  console.log(  sessionStorage.getItem(`MessagesArrayCounter${containerNumber}`))
+  }
   const bubbleContainer = $('<div>').addClass(`${sender}-bubble-container`);
   bubbleContainer.attr('id', `${sender}-bubble-container`);
   
@@ -18,10 +18,9 @@ function addBubble(message, sender , addbuttons) {
     bubble = $('<div>').append(message)
    bubble.attr('id', `${sender}-bubble`);
   }
-  
   bubbleContainer.append(bubble);
-  bubble.attr('data-messages', messageCount);
-  bubbleContainer.attr('data-messages', messageCount);
+  bubble.attr('data-messages', containerNumber);
+  bubbleContainer.attr('data-messages', containerNumber);
   $('#output-inner').append(bubbleContainer);
   $('#input').val('');
   $('#input').focus();
@@ -30,7 +29,7 @@ function addBubble(message, sender , addbuttons) {
   // Event listener to open option menu
   if (sender === 'user') {
     bubble.on('click', function() {
-      userOptionContainer(bubble);
+      optionContainer(bubble,sender);
     });
   } else {
     bubble.on('click', function() {

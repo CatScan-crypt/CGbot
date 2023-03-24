@@ -12,6 +12,7 @@ $(document).on('click', '#user-message-edit, #assistant-message-edit', function(
 
   // Replace the div content with an input element that contains the current text
 function enableEditMode(divToEdit,numberTosend,) {
+  
   const messages = [];
   const fatherBubble = divToEdit.attr('data-messages')
   const messageSetsKey = `messageSets${fatherBubble}`;
@@ -41,6 +42,7 @@ function enableEditMode(divToEdit,numberTosend,) {
 
   // When the user clicks the "Approve" button, update the div content with the new text and disable the edit mode
   approveButton.on('click', () => {
+    containerNumber = 1
     let currentDiv = divToEdit.attr('data-messages') 
     currentMessageArrayIndex = `currentMessageSetIndex[${currentDiv}]`
     
@@ -75,30 +77,31 @@ function saveChanges(divToEdit, newText) {
   const newDivElement = $('<div>').text(newText);
   divToEdit.empty().append(newDivElement);
 }
+
+let i = 0 
   // Get the container ID and role from the container element
 function saveMessages(divToEdit) {
+
   // Get the messages from all subsequent containers with the same role
   const messages = [];
   const fatherBubble = divToEdit.attr('data-messages')
-  divToEdit.parent().nextAll().each(function() {
+    divToEdit.parent().nextAll().each(function() {
     const id = $(this).attr('id');
     const role = id.split('-')[0];
     const messageText = this.innerText.trim();
-    messages.push({father:fatherBubble, role: role, content: messageText });
+    messages.push({father:fatherBubble, role: role, content: messageText }) ;
   });
   let currentMessageArrayIndex = divToEdit.attr('data-messages')
-  const messageSetsKey = `messageSets${currentMessageArrayIndex}`;
+  const messageSetsKey = `MessagesArrayCounter${currentMessageArrayIndex}`;
   let messageSets = JSON.parse(sessionStorage.getItem(messageSetsKey)) || [];
-  // Merge the new messages with the existing messages
-  const mergedMessages = messageSets.length > 0
-    ? messageSets[0].messages.concat(messages)
-    : messages;
 
   // Update the messageSets array with the merged messages
-  messageSets = [{ messages: mergedMessages }];
+  messageSets = [{ messages: messages }];
   // Get the index for the new message set
 
-  sessionStorage.setItem(messageSetsKey, JSON.stringify(messageSets));
+  sessionStorage.setItem(messageSetsKey.messages, (sessionStorage.getItem(messageSetsKey.messages)) +  (messages));
+
   // Log the saved content to the console
-  console.log('Saved content:', messageSets);
+  console.log('All saved content:', (messageSets));
 }
+
