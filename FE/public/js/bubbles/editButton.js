@@ -15,6 +15,8 @@ function enableEditMode(divToEdit,numberTosend,) {
   
   const messages = [];
   const fatherBubble = divToEdit.attr('data-messages')
+  saveMessages(divToEdit);
+
   const messageSetsKey = `messageSets${fatherBubble}`;
   messageSets = []
   firstMessageText = divToEdit[0].innerText
@@ -42,8 +44,9 @@ function enableEditMode(divToEdit,numberTosend,) {
 
   // When the user clicks the "Approve" button, update the div content with the new text and disable the edit mode
   approveButton.on('click', () => {
-    containerNumber = 1
+    
     let currentDiv = divToEdit.attr('data-messages') 
+    containerNumber = currentDiv 
     currentMessageArrayIndex = `currentMessageSetIndex[${currentDiv}]`
     
     if(!sessionStorage.getItem(currentMessageArrayIndex)){
@@ -59,7 +62,7 @@ function enableEditMode(divToEdit,numberTosend,) {
       divToEdit.parent().append(backwards)
     }
     // Call this function before removing the divs
-    saveMessages(divToEdit);
+    
     divToEdit.parent().find('#forwards').prop('disabled', true);
     divToEdit.parent().find('#backwards').prop('disabled', false);
     divToEdit.parent().nextAll().remove();
@@ -80,28 +83,31 @@ function saveChanges(divToEdit, newText) {
 
 let i = 0 
   // Get the container ID and role from the container element
-function saveMessages(divToEdit) {
-
-  // Get the messages from all subsequent containers with the same role
-  const messages = [];
-  const fatherBubble = divToEdit.attr('data-messages')
-    divToEdit.parent().nextAll().each(function() {
-    const id = $(this).attr('id');
+  function saveMessages(divToEdit) {
+    // Get the messages from all subsequent containers with the same role
+    const messages = [];
+    const fatherBubble = divToEdit.attr('data-messages');
+    const id = divToEdit.attr('id');
     const role = id.split('-')[0];
-    const messageText = this.innerText.trim();
-    messages.push({father:fatherBubble, role: role, content: messageText }) ;
-  });
-  let currentMessageArrayIndex = divToEdit.attr('data-messages')
-  const messageSetsKey = `MessagesArrayCounter${currentMessageArrayIndex}`;
-  let messageSets = JSON.parse(sessionStorage.getItem(messageSetsKey)) || [];
+    const content = divToEdit[0].innerText
+    messages.push({ father: fatherBubble, childrens: true, role: role, content: content });
 
-  // Update the messageSets array with the merged messages
-  messageSets = [{ messages: messages }];
-  // Get the index for the new message set
-
-  sessionStorage.setItem(messageSetsKey.messages, (sessionStorage.getItem(messageSetsKey.messages)) +  (messages));
-
-  // Log the saved content to the console
-  console.log('All saved content:', (messageSets));
-}
-
+    divToEdit.parent().nextAll().each(function () {
+      const id = $(this).attr('id');
+      const role = id.split('-')[0];
+      const messageText = this.innerText.trim();
+      messages.push({ father: fatherBubble, role: role, content: messageText });
+    });
+    let currentMessageArrayIndex = divToEdit.attr('data-messages');
+    const messageSetsKey = `MessagesArrayCounter${currentMessageArrayIndex}`;
+    let messageSets = JSON.parse(sessionStorage.getItem(messageSetsKey)) || [];
+  
+    // Update the messageSets array with the merged messages
+    messageSets.push({ messages: messages });
+  
+    // Store the updated messageSets array in sessionStorage
+    sessionStorage.setItem(messageSetsKey, JSON.stringify(messageSets));
+  
+    // Log the saved content to the console
+    console.log('All saved content:', messageSets);
+  }

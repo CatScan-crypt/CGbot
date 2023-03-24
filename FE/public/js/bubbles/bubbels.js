@@ -1,11 +1,10 @@
-let containerNumber = 0; // Initialize message counter
+let containerNumber = -1; // Initialize message counter
 +sessionStorage.setItem("MessagesArrayCounter[0]" , null)
 
 function addBubble(message, sender , addbuttons) {
   containerNumber++;
   if(!sessionStorage.getItem(`MessagesArrayCounter${containerNumber}`)){
-  +sessionStorage.setItem(`MessagesArrayCounter${containerNumber}` , containerNumber)
-  console.log(  sessionStorage.getItem(`MessagesArrayCounter${containerNumber}`))
+  +sessionStorage.setItem(`MessagesArrayCounter${containerNumber}` , containerNumber)  
   }
   const bubbleContainer = $('<div>').addClass(`${sender}-bubble-container`);
   bubbleContainer.attr('id', `${sender}-bubble-container`);
@@ -43,6 +42,5 @@ if(addbuttons){
   bubbleContainer.append(forwards)
   bubbleContainer.append(backwards)
 }
-
 }
 

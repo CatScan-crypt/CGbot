@@ -42,7 +42,7 @@ function optionContainer(message, role) {
   
 } else if (role === 'assistant') {
   buttonContainer.insertAfter(message);
-  userButtonsAdded = true;
+  buttonsAdded = true
   assistantButtonsAdded = true;
   assistantMessageCopy(message);
 }
@@ -58,6 +58,3 @@ if (role === 'user') {
 }
 }
 }
-
-
-
