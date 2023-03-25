@@ -3,28 +3,31 @@ sessionStorage.setItem(`currentMessageSetIndex0` , 0)
 $(document).on('click', '#backwards , #forwards', function() {
  
     const currentButton = $(this).attr('id')
+    sessionStorage.setItem("containerNumber" , currentButton)  
+
+    containerNumber = currentButton
     const currentContainer = $(this).closest('#user-bubble-container, #assistant-bubble-container')
     const oppositeButton = currentContainer.find('#backwards , #forwards')
   
     const messagesSetlocation = currentContainer.find('#user-bubble, #assistant-bubble');
     const messageSetIndex = messagesSetlocation.attr('data-messages');
-    const sessionMessagesArray = `messageSets${messageSetIndex}`
-    const currentMessageSetIndex = `currentMessageSetIndex${containerNumber}`
-    const messageSets = JSON.parse(sessionStorage.getItem(`MessagesArrayCounter${containerNumber}`));
+    const sessionMessagesArray =   `MessagesArrayCounter0`
+    const currentMessageSetIndex = `currentMessageSetIndex0`
     
-    const indexLength = messageSets.length 
+    const messageSets = (sessionStorage.getItem(sessionMessagesArray));
+    const currentMessageSetIndexNumber = sessionStorage.getItem(currentMessageSetIndex)
 
-    console.log(indexLength);
+    const indexLength = JSON.parse(messageSets).length
 
+    console.log(currentMessageSetIndexNumber);
 
-     messagesArray =  JSON.parse(sessionStorage.getItem(`MessagesArrayCounter${containerNumber}`))
-     console.log(messagesArray);
-    function populateOutput(messagesArray) {
+     messagesArray =  JSON.parse(sessionStorage.getItem(`MessagesArrayCounter0`))
+      function populateOutput(messagesArray) {
       const outputArea = document.getElementById('output-inner');
       outputArea.innerHTML = '';
   
 
-         messagesArray[containerNumber].messages.forEach((messages) => {
+         messagesArray[currentMessageSetIndexNumber].messages.forEach((messages) => {
         if (messages.role == 'user') {
           let a = false
           if(messages.childrens){
@@ -36,23 +39,25 @@ $(document).on('click', '#backwards , #forwards', function() {
           assistantBubble(messages.content);
         } 
       });
+      sessionStorage.setItem("containerNumber" , currentButton)  
+
     }
-    function checkIf(currentMessageSetIndex){return sessionStorage.getItem(currentMessageSetIndex)}
-    function goDirection(direction) {
-      current = sessionStorage.getItem(parseInt(currentMessageSetIndex));
-      newCurrent = direction === 'backwards' ? current + 1 : current - 1;
+    function checkIf(){return parseInt(sessionStorage.getItem(currentMessageSetIndex))}
+    function goDirection(direction) {  
+
+      current = parseInt(currentMessageSetIndexNumber);
+      newCurrent = direction === 'backwards' ? parseInt(current) - 1 : parseInt(current) + 1;
       sessionStorage.setItem(currentMessageSetIndex, newCurrent);
-      console.log(newCurrent);
     }
   
     switch(currentButton) {
       case 'backwards':
-        (checkIf(currentMessageSetIndex)  >= 0 ) ? (goDirection('backwards'), populateOutput(messagesArray), $(oppositeButton).prop('disabled', false) ) : goDirection('backwards');
-        (checkIf(currentMessageSetIndex) <= 0 ) ? $(this).prop('disabled', false) : null;
+        (checkIf(currentMessageSetIndexNumber) <= 1 ) ? ( $(this).prop('disabled', true) , console.log(currentMessageSetIndexNumber)) : console.log(currentMessageSetIndexNumber);
+        (checkIf(currentMessageSetIndexNumber)  > 1 ) ? ( goDirection('backwards'), populateOutput(messagesArray), $(oppositeButton).prop('disabled', false) ) : goDirection('backwards');
         break;
       case 'forwards':
-      (checkIf(currentMessageSetIndex)  < indexLength) ? (goDirection('forwards'), populateConsole(messagesArray), $(oppositeButton).prop('disabled', false)) : goDirection('forwards');
-      (checkIf(currentMessageSetIndex) >= indexLength) ? $(this).prop('disabled', true) : null;
+        (checkIf(currentMessageSetIndexNumber) >= indexLengths) ? $(this).prop('disabled', true) : null;
+      (checkIf(currentMessageSetIndexNumber) < indexLength ) ? (goDirection('forwards'),populateOutput(messagesArray),  $(oppositeButton).prop('disabled', false)) : goDirection('forwards');
         break;
   }
   });

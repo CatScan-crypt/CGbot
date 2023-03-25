@@ -1,11 +1,18 @@
-let containerNumber = -1; // Initialize message counter
-+sessionStorage.setItem("MessagesArrayCounter[0]" , null)
+// let containerNumber = -1; // Initialize message counter
+
+// sessionStorage.setItem("containerNumber" , 0)
 
 function addBubble(message, sender , addbuttons) {
-  containerNumber++;
-  if(!sessionStorage.getItem(`MessagesArrayCounter${containerNumber}`)){
+  containerNumber = parseInt(sessionStorage.getItem("containerNumber")) || '0';
+
+
+  if(!sessionStorage.getItem(`MessagesArrayCounter${containerNumber }`)){
   +sessionStorage.setItem(`MessagesArrayCounter${containerNumber}` , containerNumber)  
   }
+
+  containerNumber++;
+
+  +sessionStorage.setItem("containerNumber" , containerNumber)
   const bubbleContainer = $('<div>').addClass(`${sender}-bubble-container`);
   bubbleContainer.attr('id', `${sender}-bubble-container`);
   
@@ -18,8 +25,8 @@ function addBubble(message, sender , addbuttons) {
    bubble.attr('id', `${sender}-bubble`);
   }
   bubbleContainer.append(bubble);
-  bubble.attr('data-messages', containerNumber);
-  bubbleContainer.attr('data-messages', containerNumber);
+  bubble.attr('data-messages', containerNumber - 1);
+  bubbleContainer.attr('data-messages', containerNumber) - 1;
   $('#output-inner').append(bubbleContainer);
   $('#input').val('');
   $('#input').focus();

@@ -47,7 +47,6 @@ function optionContainer(message, role) {
   assistantMessageCopy(message);
 }
 } else {
-  console.log('mewo');
 $(`.${optionsContainerClass}`).remove();
 if (role === 'user') {
   buttonsAdded = false

@@ -46,12 +46,9 @@ function enableEditMode(divToEdit,numberTosend,) {
   approveButton.on('click', () => {
     
     let currentDiv = divToEdit.attr('data-messages') 
-    containerNumber = currentDiv 
-    currentMessageArrayIndex = `currentMessageSetIndex[${currentDiv}]`
+    sessionStorage.setItem("containerNumber" , currentDiv)  
     
-    if(!sessionStorage.getItem(currentMessageArrayIndex)){
-      sessionStorage.setItem(currentMessageArrayIndex, 0);
-    }
+    currentMessageArrayIndex = `currentMessageSetIndex${currentDiv}`
     const newText = inputElement.val();
     
     divToEdit.text(newText);
@@ -63,8 +60,8 @@ function enableEditMode(divToEdit,numberTosend,) {
     }
     // Call this function before removing the divs
     
-    divToEdit.parent().find('#forwards').prop('disabled', true);
-    divToEdit.parent().find('#backwards').prop('disabled', false);
+    divToEdit.parent().find('#forwards').prop('disabled', false);
+    divToEdit.parent().find('#backwards').prop('disabled', true);
     divToEdit.parent().nextAll().remove();
     // sessionStorage.setItem(currentMessageArrayIndex, +sessionStorage.getItem(currentMessageArrayIndex) + 1);
   });
@@ -98,8 +95,8 @@ let i = 0
       const messageText = this.innerText.trim();
       messages.push({ father: fatherBubble, role: role, content: messageText });
     });
-    let currentMessageArrayIndex = divToEdit.attr('data-messages');
-    const messageSetsKey = `MessagesArrayCounter${currentMessageArrayIndex}`;
+    let currentContainerArrayIndex = divToEdit.attr('data-messages');
+    const messageSetsKey = `MessagesArrayCounter${currentContainerArrayIndex}`;
     let messageSets = JSON.parse(sessionStorage.getItem(messageSetsKey)) || [];
   
     // Update the messageSets array with the merged messages
