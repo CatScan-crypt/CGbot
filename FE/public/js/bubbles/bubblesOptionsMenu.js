@@ -38,13 +38,13 @@ function optionContainer(message, role) {
   buttonContainer.insertBefore(message);
   buttonsAdded = true
   userButtonsAdded = true;
-  userMessageCopy(message);
+  messageCopy( `#${role}-message-copy`, message);
   
 } else if (role === 'assistant') {
   buttonContainer.insertAfter(message);
   buttonsAdded = true
   assistantButtonsAdded = true;
-  assistantMessageCopy(message);
+  messageCopy( `#${role}-message-copy`, message);
 }
 } else {
 $(`.${optionsContainerClass}`).remove();
