@@ -5,12 +5,10 @@ const sendButton = document.getElementById('send-button');
 
 sendButton.addEventListener('click', () => {
   const message = input.value;
-  if (message.trim() !== '') {
-
     addBubble(message, 'user')
     // Send a message to the server
     sendMessageToAPI(message)
-  }
+
 });
 
 input.addEventListener('keydown', (event) => {

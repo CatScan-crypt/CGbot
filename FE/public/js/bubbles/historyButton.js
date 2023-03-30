@@ -3,9 +3,7 @@ sessionStorage.setItem(`currentMessageSetIndex0` , 0)
 $(document).on('click', '#backwards , #forwards', function() {
  
     const currentButton = $(this).attr('id')
-    sessionStorage.setItem("containerNumber" , currentButton)  
 
-    containerNumber = currentButton
     const currentContainer = $(this).closest('#user-bubble-container, #assistant-bubble-container')
     const oppositeButton = currentContainer.find('#backwards , #forwards')
   
@@ -39,7 +37,7 @@ $(document).on('click', '#backwards , #forwards', function() {
           assistantBubble(messages.content);
         } 
       });
-      sessionStorage.setItem("containerNumber" , currentButton)  
+
 
     }
     function checkIf(){return parseInt(sessionStorage.getItem(currentMessageSetIndex))}
@@ -52,12 +50,13 @@ $(document).on('click', '#backwards , #forwards', function() {
   
     switch(currentButton) {
       case 'backwards':
-        (checkIf(currentMessageSetIndexNumber) <= 1 ) ? ( $(this).prop('disabled', true) , console.log(currentMessageSetIndexNumber)) : console.log(currentMessageSetIndexNumber);
         (checkIf(currentMessageSetIndexNumber)  > 1 ) ? ( goDirection('backwards'), populateOutput(messagesArray), $(oppositeButton).prop('disabled', false) ) : goDirection('backwards');
+        (checkIf(currentMessageSetIndexNumber) <= 1 ) ? ( $(this).prop('disabled', true) ) : console.log(currentMessageSetIndexNumber);
         break;
       case 'forwards':
-        (checkIf(currentMessageSetIndexNumber) >= indexLength) ? $(this).prop('disabled', true) : null;
-      (checkIf(currentMessageSetIndexNumber) < indexLength ) ? (goDirection('forwards'),populateOutput(messagesArray),  $(oppositeButton).prop('disabled', false)) : goDirection('forwards');
+        (checkIf(currentMessageSetIndexNumber) == indexLength) ?( $(this).prop('disabled', true), console.log(currentMessageSetIndexNumber)) :  console.log(currentMessageSetIndexNumber);
+        (checkIf(currentMessageSetIndexNumber) <= indexLength - 1 ) ? (goDirection('forwards'),populateOutput(messagesArray),  $(oppositeButton).prop('disabled', false)) : goDirection('forwards');
+
         break;
   }
   });

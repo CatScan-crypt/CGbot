@@ -1,33 +1,21 @@
-$(document).on('click', '#user-message-edit, #assistant-message-edit', function() {    
-    const optionsContainer = $(this).closest('#user-options-container, #assistant-options-container');
-    // Get the current text of the bubble div and prompt the user for new text
-    const divToEdit = optionsContainer.closest('#user-bubble-container, #assistant-bubble-container').find('#user-bubble, #assistant-bubble');
-    const numberTosend = optionsContainer.attr('data-messages')
-    enableEditMode(divToEdit,numberTosend);
-    optionsContainer.remove();
-  });
-  function sendEditToServer(numberTosend,newText){
-    // sendMessageIndex(numberTosend,newText)
-    }
+// function sendEditToServer(numberTosend,newText){
+  // sendMessageIndex(numberTosend,newText)
+  // }
+  // const numberToSend = optionsContainer.attr('data-messages');
+
+
+
+$(document).on('click', '#user-message-edit, #assistant-message-edit', function() {
+  const optionsContainer = $(this).closest('[id$="-options-container"]');
+  const divToEdit = optionsContainer.siblings('[id$="-bubble"]');
+  enableEditMode(divToEdit);
+  optionsContainer.remove();
+});
 
   // Replace the div content with an input element that contains the current text
-function enableEditMode(divToEdit,numberTosend,) {
-  
-  const messages = [];
-  const fatherBubble = divToEdit.attr('data-messages')
+function enableEditMode(divToEdit) {
+
   saveMessages(divToEdit);
-
-  const messageSetsKey = `messageSets${fatherBubble}`;
-  messageSets = []
-  firstMessageText = divToEdit[0].innerText
-  firstMessageLocation = divToEdit.attr('id')
-  firstMessageRole = firstMessageLocation.split('-')[0]
-  messages.push({father:fatherBubble, childrens: 'true', role:firstMessageRole, content: firstMessageText });
-
-  messageSets.push({  messages });
-  sessionStorage.setItem(messageSetsKey, JSON.stringify(messageSets));
-
-
   const currentText = divToEdit.text();
   const inputElement = $('<input>').val(currentText);
   divToEdit.empty().append(inputElement);
@@ -37,6 +25,7 @@ function enableEditMode(divToEdit,numberTosend,) {
   const approveButton = $('<button>').text('Approve');
   const backwards = $('<button>').text('->').attr('id', 'backwards'); 
   const forwards = $('<button>').text('<-').attr('id', 'forwards');
+
   // When the user clicks the "Cancel" button, disable the edit mode
   cancelButton.on('click', () => {
     saveChanges(divToEdit, currentText);
@@ -44,26 +33,16 @@ function enableEditMode(divToEdit,numberTosend,) {
 
   // When the user clicks the "Approve" button, update the div content with the new text and disable the edit mode
   approveButton.on('click', () => {
-    
-    let currentDiv = divToEdit.attr('data-messages') 
-    sessionStorage.setItem("containerNumber" , currentDiv)  
-    
-    currentMessageArrayIndex = `currentMessageSetIndex${currentDiv}`
+
     const newText = inputElement.val();
-    
     divToEdit.text(newText);
     saveChanges(divToEdit, newText);
-    sendEditToServer(numberTosend,newText)
     if (!divToEdit.parent().find('#backwards').length) {
       divToEdit.parent().append(forwards);
       divToEdit.parent().append(backwards)
     }
     // Call this function before removing the divs
-    
-    divToEdit.parent().find('#forwards').prop('disabled', false);
-    divToEdit.parent().find('#backwards').prop('disabled', true);
     divToEdit.parent().nextAll().remove();
-    // sessionStorage.setItem(currentMessageArrayIndex, +sessionStorage.getItem(currentMessageArrayIndex) + 1);
   });
   
   // Append the buttons to the div
@@ -78,7 +57,7 @@ function saveChanges(divToEdit, newText) {
   divToEdit.empty().append(newDivElement);
 }
 
-let i = 0 
+
   // Get the container ID and role from the container element
   function saveMessages(divToEdit) {
     // Get the messages from all subsequent containers with the same role
