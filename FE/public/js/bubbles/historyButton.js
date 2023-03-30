@@ -56,7 +56,7 @@ $(document).on('click', '#backwards , #forwards', function() {
         (checkIf(currentMessageSetIndexNumber)  > 1 ) ? ( goDirection('backwards'), populateOutput(messagesArray), $(oppositeButton).prop('disabled', false) ) : goDirection('backwards');
         break;
       case 'forwards':
-        (checkIf(currentMessageSetIndexNumber) >= indexLengths) ? $(this).prop('disabled', true) : null;
+        (checkIf(currentMessageSetIndexNumber) >= indexLength) ? $(this).prop('disabled', true) : null;
       (checkIf(currentMessageSetIndexNumber) < indexLength ) ? (goDirection('forwards'),populateOutput(messagesArray),  $(oppositeButton).prop('disabled', false)) : goDirection('forwards');
         break;
   }
