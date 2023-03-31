@@ -60,6 +60,7 @@ function saveChanges(divToEdit, newText) {
 
   // Get the container ID and role from the container element
   function saveMessages(divToEdit) {
+    console.log(divToEdit);
     // Get the messages from all subsequent containers with the same role
     const messages = [];
     const fatherBubble = divToEdit.attr('data-messages');
@@ -76,7 +77,12 @@ function saveChanges(divToEdit, newText) {
     });
     let currentContainerArrayIndex = divToEdit.attr('data-messages');
     const messageSetsKey = `MessagesArrayCounter${currentContainerArrayIndex}`;
-    let messageSets = JSON.parse(sessionStorage.getItem(messageSetsKey)) || [];
+    let messageSets = JSON.parse(sessionStorage.getItem(messageSetsKey));
+  
+    // Ensure messageSets is an array
+    if (!Array.isArray(messageSets)) {
+      messageSets = [];
+    }
   
     // Update the messageSets array with the merged messages
     messageSets.push({ messages: messages });

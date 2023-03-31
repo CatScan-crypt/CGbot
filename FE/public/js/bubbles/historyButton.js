@@ -1,63 +1,55 @@
-sessionStorage.setItem(`currentMessageSetIndex0` , 0)
+// Set initial value for currentMessageSetIndex
+sessionStorage.setItem("currentMessageSetIndex", 0);
 
-$(document).on('click', '#backwards , #forwards', function() {
- 
-    const currentButton = $(this).attr('id')
-
-    const currentContainer = $(this).closest('#user-bubble-container, #assistant-bubble-container')
-    const oppositeButton = currentContainer.find('#backwards , #forwards')
-  
-    const messagesSetlocation = currentContainer.find('#user-bubble, #assistant-bubble');
-    const messageSetIndex = messagesSetlocation.attr('data-messages');
-    const sessionMessagesArray =   `MessagesArrayCounter0`
-    const currentMessageSetIndex = `currentMessageSetIndex0`
-    
-    const messageSets = (sessionStorage.getItem(sessionMessagesArray));
-    const currentMessageSetIndexNumber = sessionStorage.getItem(currentMessageSetIndex)
-
-    const indexLength = JSON.parse(messageSets).length
-
-    console.log(currentMessageSetIndexNumber);
-
-     messagesArray =  JSON.parse(sessionStorage.getItem(`MessagesArrayCounter0`))
-      function populateOutput(messagesArray) {
-      const outputArea = document.getElementById('output-inner');
-      outputArea.innerHTML = '';
-  
-
-         messagesArray[currentMessageSetIndexNumber].messages.forEach((messages) => {
-        if (messages.role == 'user') {
-          let a = false
-          if(messages.childrens){
-             a = true 
-            }
-            addBubble(messages.content,messages.role, a);
-        } else {
-          if(messages.childrens){console.log(messages.childrens);}
-          assistantBubble(messages.content);
-        } 
-      });
-
-
-    }
-    function checkIf(){return parseInt(sessionStorage.getItem(currentMessageSetIndex))}
-    function goDirection(direction) {  
-
-      current = parseInt(currentMessageSetIndexNumber);
-      newCurrent = direction === 'backwards' ? parseInt(current) - 1 : parseInt(current) + 1;
-      sessionStorage.setItem(currentMessageSetIndex, newCurrent);
-    }
-  
-    switch(currentButton) {
-      case 'backwards':
-        (checkIf(currentMessageSetIndexNumber)  > 1 ) ? ( goDirection('backwards'), populateOutput(messagesArray), $(oppositeButton).prop('disabled', false) ) : goDirection('backwards');
-        (checkIf(currentMessageSetIndexNumber) <= 1 ) ? ( $(this).prop('disabled', true) ) : console.log(currentMessageSetIndexNumber);
-        break;
-      case 'forwards':
-        (checkIf(currentMessageSetIndexNumber) == indexLength) ?( $(this).prop('disabled', true), console.log(currentMessageSetIndexNumber)) :  console.log(currentMessageSetIndexNumber);
-        (checkIf(currentMessageSetIndexNumber) <= indexLength - 1 ) ? (goDirection('forwards'),populateOutput(messagesArray),  $(oppositeButton).prop('disabled', false)) : goDirection('forwards');
-
-        break;
+// Event listener for the click event on navigation buttons
+document.addEventListener("click", (event) => {
+  if (event.target.id === "backwards" || event.target.id === "forwards") {
+    navigateMessages(event.target.id);
   }
+});
+
+function navigateMessages(clickedButtonId) {
+  // Determine the direction for navigation based on the clicked button's ID
+  const direction = clickedButtonId === "backwards" ? -1 : 1;
+
+  // Retrieve the current message set index from session storage and parse it as an integer
+  const currentMessageSetIndex = parseInt(sessionStorage.getItem("currentMessageSetIndex"));
+
+  // Retrieve the messages array from session storage and parse it as a JSON object
+  const messagesArray = JSON.parse(sessionStorage.getItem("MessagesArrayCounter0"));
+
+  // Calculate the new index by adding the direction value to the current message set index
+  const newIndex = currentMessageSetIndex + direction;
+
+  // Check if the new index is within the bounds of the messages array
+  if (newIndex >= 0 && newIndex <= messagesArray.length - 1) {
+    // Update the current message set index in session storage with the new index value
+    sessionStorage.setItem("currentMessageSetIndex", newIndex);
+
+    // Populate the output area with messages from the message set at the new index
+    populateOutput(messagesArray[newIndex].messages);
+
+    // Update the disabled state of the navigation buttons based on the new index
+    updateButtonDisabledState("backwards", newIndex <= 0);
+    updateButtonDisabledState("forwards", newIndex >= messagesArray.length - 1);
+  }
+}
+
+function populateOutput(messages) {
+  const outputArea = document.getElementById("output-inner");
+  outputArea.innerHTML = "";
+
+  messages.forEach((message) => {
+    const hasChildren = message.childrens || false;
+    if (message.role === "user") {
+      addBubble(message.content, message.role, hasChildren);
+    } else {
+      assistantBubble(message.content, message.role, hasChildren);
+    }
   });
-  
+}
+
+function updateButtonDisabledState(buttonId, isDisabled) {
+  const button = document.getElementById(buttonId);
+  button.disabled = isDisabled;
+}

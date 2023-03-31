@@ -1,7 +1,6 @@
 sessionStorage.clear()
 
 
-//needs refactoring 
 function messageCopy(selector, message) {
   const messageButton = $(selector);
   messageButton.on('click', function() {

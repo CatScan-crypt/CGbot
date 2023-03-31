@@ -18,3 +18,10 @@ Adding edit button section in the flowchart
 
 Update-0.121211:
 Refactoring Copy message function
+
+Update-0.131311:
+Adding copy and scrollbar flowchart parts
+Fixing and refactoring history buttons 
+Fixing messages sets issue
+
+
